@@ -1,4 +1,4 @@
 package moduloPagos.dominio.repositorio;
 
-public interface PagosRepository {
+public interface IPagosRepository {
 }

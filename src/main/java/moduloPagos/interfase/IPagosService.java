@@ -7,7 +7,7 @@ import moduloPagos.dominio.Pago;
 import java.time.LocalTime;
 import java.util.List;
 
-public interface PagosService {
+public interface IPagosService {
     void pagarCarga(Cliente cliente, float importe, MedioPago medioPago);
 
     List<Pago> consultarPagos(Cliente cliente, LocalTime fechaInicio, LocalTime fechaFin);

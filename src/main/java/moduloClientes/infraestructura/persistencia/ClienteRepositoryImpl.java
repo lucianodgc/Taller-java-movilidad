@@ -1,12 +1,12 @@
 package moduloClientes.infraestructura.persistencia;
 
 import moduloClientes.dominio.Cliente;
-import moduloClientes.dominio.repositorio.ClienteRepository;
+import moduloClientes.dominio.repositorio.IClienteRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteRepositoryImpl implements ClienteRepository {
+public class ClienteRepositoryImpl implements IClienteRepository {
 
     private ArrayList<Cliente> clientes = new ArrayList<>();
 

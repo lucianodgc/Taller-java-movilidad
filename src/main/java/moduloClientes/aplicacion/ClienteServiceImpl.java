@@ -3,17 +3,17 @@ package moduloClientes.aplicacion;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import moduloClientes.dominio.*;
-import moduloClientes.dominio.repositorio.ClienteRepository;
+import moduloClientes.dominio.repositorio.IClienteRepository;
 import moduloClientes.interfase.ClienteDTO;
-import moduloClientes.interfase.ClienteService;
+import moduloClientes.interfase.IClienteService;
 
 import java.util.List;
 
 @ApplicationScoped
-public class ClienteServiceImpl implements ClienteService {
+public class ClienteServiceImpl implements IClienteService {
 
     @Inject
-    private ClienteRepository repository;
+    private IClienteRepository repository;
 
     @Override
     public void registrarCliente(ClienteDTO cliente) {

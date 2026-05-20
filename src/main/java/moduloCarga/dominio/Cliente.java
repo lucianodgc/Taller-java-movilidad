@@ -1,36 +1,29 @@
 package moduloCarga.dominio;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Cliente {
+@Entity
+public class Cliente {
+    @Id
     private String cedula;
-    private String nombreCompleto;
-    private String telefono;
-    private String contraseña;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MedioPago> mediosDePago = new ArrayList<>();
-    private List<Carga> cargas = new ArrayList<>();
 
-    public Cliente(String cedula, String nombreCompleto, String telefono, String contraseña) {
+    public Cliente() {
+    }
+
+    public Cliente(String cedula) {
         this.cedula = cedula;
-        this.nombreCompleto = nombreCompleto;
-        this.telefono = telefono;
-        this.contraseña = contraseña;
     }
 
     public String getCedula() {
         return cedula;
     }
-
     public List<MedioPago> getMediosDePago() {
         return mediosDePago;
     }
 
-    public void agregarMedioPago(MedioPago mediosDePago) {
-        this.mediosDePago.add(mediosDePago);
-    }
-
-    public List<Carga> getCargas() {
-        return cargas;
-    }
 }

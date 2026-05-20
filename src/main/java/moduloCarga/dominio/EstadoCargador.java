@@ -1,7 +1,7 @@
 package moduloCarga.dominio;
 
 public enum EstadoCargador {
-    Ocupado,
-    FueraDeServicio,
-    Libre
+    OCUPADO,
+    FUERA_DE_SERVICIO,
+    DISPONIBLE
 }
