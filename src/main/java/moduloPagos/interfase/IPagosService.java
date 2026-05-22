@@ -4,13 +4,13 @@ import moduloPagos.dominio.Cliente;
 import moduloPagos.dominio.MedioPago;
 import moduloPagos.dominio.Pago;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IPagosService {
-    void pagarCarga(Cliente cliente, float importe, MedioPago medioPago);
+    void pagarCarga(String ciCliente, float importe, MedioPago medioPago);
 
-    List<Pago> consultarPagos(Cliente cliente, LocalTime fechaInicio, LocalTime fechaFin);
+    List<Pago> consultarPagos(PagoDTO dataPago, LocalDate fechaInicio, LocalDate fechaFin);
 
 
 }

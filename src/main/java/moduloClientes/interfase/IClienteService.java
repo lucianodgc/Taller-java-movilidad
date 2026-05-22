@@ -5,14 +5,14 @@ import moduloClientes.dominio.MedioPago;
 
 import java.util.List;
 
-public interface IClienteService {
+public interface  IClienteService {
     void registrarCliente(ClienteDTO cliente);
 
-    void altaMedioPago(Cliente cliente, MedioPago medioPago);
+    void altaMedioPago(String ciCliente, MedioPagoDTO medioPago);
 
     List<Cliente> obtenerClientes();
 
-    void realizarReclamo();
+    Cliente obtenerCliente(String ciCliente);
 
-    Cliente obtenerCliente(String cedula);
+    void realizarReclamo(ReclamoDTO dataReclamo);
 }

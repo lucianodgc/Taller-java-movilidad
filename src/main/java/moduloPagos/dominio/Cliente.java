@@ -1,24 +1,27 @@
 package moduloPagos.dominio;
 
-import moduloCarga.dominio.Carga;
-import moduloCarga.dominio.MedioPago;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Cliente {
+@Entity
+public class Cliente {
+    @Id
     private String cedula;
-    private String nombreCompleto;
-    private String telefono;
-    private String contraseña;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedioPago> mediosDePago = new ArrayList<>();
+    private List<Pago> pagos = new ArrayList<>();
     private List<Carga> cargas = new ArrayList<>();
 
-    public Cliente(String cedula, String nombreCompleto, String telefono, String contraseña) {
+    protected Cliente() {
+    }
+
+    public Cliente(String cedula) {
         this.cedula = cedula;
-        this.nombreCompleto = nombreCompleto;
-        this.telefono = telefono;
-        this.contraseña = contraseña;
     }
 
     public String getCedula() {
@@ -29,11 +32,7 @@ public abstract class Cliente {
         return mediosDePago;
     }
 
-    public void agregarMedioPago(MedioPago mediosDePago) {
-        this.mediosDePago.add(mediosDePago);
-    }
-
-    public List<Carga> getCargas() {
-        return cargas;
+    public void agregarPago(Pago pago) {
+        pagos.add(pago);
     }
 }

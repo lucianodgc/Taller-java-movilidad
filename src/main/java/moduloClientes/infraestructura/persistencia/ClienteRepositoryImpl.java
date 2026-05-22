@@ -1,28 +1,56 @@
 package moduloClientes.infraestructura.persistencia;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import moduloClientes.dominio.Cliente;
+import moduloClientes.dominio.MedioPago;
+import moduloClientes.dominio.Reclamo;
 import moduloClientes.dominio.repositorio.IClienteRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
 public class ClienteRepositoryImpl implements IClienteRepository {
 
-    private ArrayList<Cliente> clientes = new ArrayList<>();
+    @PersistenceContext
+    private EntityManager em;
 
-    public void guardar(Cliente cliente) {
-        clientes.add(cliente);
+    @Override
+    public void guardarCliente(Cliente cliente) {
+        if (cliente.getCedula() == null) {
+            em.persist(cliente);
+        } else {
+            em.merge(cliente);
+        }
     }
 
-    public Cliente buscarPorCedula(String cedula) {
-        return clientes.stream()
-                .filter(c -> c.getCedula().equals(cedula))
-                .findFirst()
-                .orElse(null);
+    @Override
+    public Cliente buscarPorCedula(String ciCliente) {
+        return em.find(Cliente.class, ciCliente);
     }
 
-    public List<Cliente> obtenerTodos() {
-        return clientes;
+    @Override
+    public List<Cliente> obtenerClientes() {
+        String sql = "SELECT c FROM Cliente c";
+        return em.createQuery(sql, Cliente.class).getResultList();
     }
 
+    @Override
+    public void guardarMedioPago(MedioPago medioPago) {
+        if (medioPago.getReferencia() == null) {
+            em.persist(medioPago);
+        } else {
+            em.merge(medioPago);
+        }
+    }
+
+    @Override
+    public void guardarReclamo(Reclamo reclamo) {
+        if (reclamo.getId() == null) {
+            em.persist(reclamo);
+        } else {
+            em.merge(reclamo);
+        }
+    }
 }

@@ -15,6 +15,8 @@ public class CargaRepositoryImpl implements ICargaRepository {
     @PersistenceContext
     private EntityManager em;
 
+
+
     @Override
     public Cliente buscarCliente(String idCliente) {
         return em.find(Cliente.class, idCliente);

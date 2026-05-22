@@ -8,9 +8,21 @@ public class ClienteDTO {
     String nombreCompleto;
     String telefono;
     String contraseña;
+
     TipoProfesional tipoProfesional;
     Float descuento;
+
     TipoCliente tipo;
+
+    public ClienteDTO(String cedula, String nombreCompleto, String telefono, String contraseña, TipoProfesional tipoProfesional, Float descuento, TipoCliente tipo) {
+        this.cedula = cedula;
+        this.nombreCompleto = nombreCompleto;
+        this.telefono = telefono;
+        this.contraseña = contraseña;
+        this.tipoProfesional = tipoProfesional;
+        this.descuento = descuento;
+        this.tipo = tipo;
+    }
 
     public String getCedula() {return cedula;}
     public String getNombreCompleto() {return nombreCompleto;}

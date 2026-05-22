@@ -1,25 +1,33 @@
 package moduloCarga.interfase;
 
+import moduloCarga.dominio.EstadoCargador;
+import moduloCarga.dominio.TipoCargador;
+import moduloCarga.dominio.TipoConector;
+
+import java.time.LocalDate;
+
 public class CargadorDTO {
-    private String tipo;
-    private String tipoConector;
+    private TipoCargador tipoCargador;
+    private TipoConector tipoConector;
     private int potenciaMinima;
     private boolean tieneCable;
     private String idEstacion;
+    private EstadoCargador estadoCargador;
+    private LocalDate fechaEstimadaReparacion;
 
-    public CargadorDTO(String tipo, String tipoConector, int potenciaMinima, boolean tieneCable, String idEstacion) {
-        this.tipo = tipo;
+    public CargadorDTO(TipoCargador tipoCargador, TipoConector tipoConector, int potenciaMinima, boolean tieneCable, String idEstacion) {
+        this.tipoCargador = tipoCargador;
         this.tipoConector = tipoConector;
         this.potenciaMinima = potenciaMinima;
         this.tieneCable = tieneCable;
         this.idEstacion = idEstacion;
     }
 
-    public String getTipo() {
-        return tipo;
+    public TipoCargador getTipoCargador() {
+        return tipoCargador;
     }
 
-    public String getTipoConector() {
+    public TipoConector getTipoConector() {
         return tipoConector;
     }
 
@@ -33,5 +41,13 @@ public class CargadorDTO {
 
     public String getIdEstacion() {
         return idEstacion;
+    }
+
+    public EstadoCargador getEstadoCargador() {
+        return estadoCargador;
+    }
+
+    public LocalDate getFechaEstimadaReparacion() {
+        return fechaEstimadaReparacion;
     }
 }

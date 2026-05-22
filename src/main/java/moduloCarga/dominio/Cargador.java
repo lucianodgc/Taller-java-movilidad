@@ -2,9 +2,9 @@ package moduloCarga.dominio;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,54 +12,37 @@ public class Cargador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private TipoCargador tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoCargador tipoCargador;
     private Boolean tieneCable;
+    @Enumerated(EnumType.STRING)
     private TipoConector tipoConector;
+    @Enumerated(EnumType.STRING)
     private EstadoCargador estado;
     private LocalDateTime tiempoEstimadoFinalizacion;
-    private Date fechaEstimadaReparacion;
+    @Temporal(TemporalType.DATE)
+    private LocalDate fechaEstimadaReparacion;
     private int potenciaMinima;
 
     @ManyToOne
     @JoinColumn(name = "idEstacion")
     private EstacionCarga estacion;
 
-    @OneToMany(mappedBy = "cargador")
+    @OneToMany(mappedBy = "cargador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Carga> cargas = new ArrayList<>();
 
-    public Cargador() {
+    protected Cargador() {
+    }
+
+    public Cargador(TipoCargador tipoCargador, Boolean tieneCable, TipoConector tipoConector, EstacionCarga estacion) {
+        this.tipoCargador = tipoCargador;
+        this.tieneCable = tieneCable;
+        this.tipoConector = tipoConector;
+        this.estacion = estacion;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public TipoCargador getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoCargador tipo) {
-        this.tipo = tipo;
-    }
-
-    public Boolean getTieneCable() {
-        return tieneCable;
-    }
-
-    public void setTieneCable(Boolean tieneCable) {
-        this.tieneCable = tieneCable;
-    }
-
-    public TipoConector getTipoConector() {
-        return tipoConector;
-    }
-
-    public void setTipoConector(TipoConector tipoConector) {
-        this.tipoConector = tipoConector;
     }
 
     public EstadoCargador getEstado() {
@@ -70,43 +53,19 @@ public class Cargador {
         this.estado = estado;
     }
 
-    public LocalDateTime getTiempoEstimadoFinalizacion() {
-        return tiempoEstimadoFinalizacion;
-    }
-
     public void setTiempoEstimadoFinalizacion(LocalDateTime tiempoEstimadoFinalizacion) {
         this.tiempoEstimadoFinalizacion = tiempoEstimadoFinalizacion;
     }
 
-    public Date getFechaEstimadaReparacion() {
-        return fechaEstimadaReparacion;
-    }
-
-    public void setFechaEstimadaReparacion(Date fechaEstimadaReparacion) {
+    public void setFechaEstimadaReparacion(LocalDate fechaEstimadaReparacion) {
         this.fechaEstimadaReparacion = fechaEstimadaReparacion;
-    }
-
-    public int getPotenciaMinima() {
-        return potenciaMinima;
     }
 
     public void setPotenciaMinima(int potenciaMinima) {
         this.potenciaMinima = potenciaMinima;
     }
 
-    public EstacionCarga getEstacion() {
-        return estacion;
-    }
-
-    public void setEstacion(EstacionCarga estacion) {
-        this.estacion = estacion;
-    }
-
-    public List<Carga> getCargas() {
-        return cargas;
-    }
-
-    public void setCargas(List<Carga> cargas) {
-        this.cargas = cargas;
+    public void agregarCargas(Carga carga) {
+        this.cargas.add(carga);
     }
 }

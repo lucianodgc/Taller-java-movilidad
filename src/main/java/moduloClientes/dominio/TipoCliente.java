@@ -1,6 +1,6 @@
 package moduloClientes.dominio;
 
 public enum TipoCliente {
-    Comun,
-    Profesional
+    COMUN,
+    PROFESIONAL
 }

@@ -1,15 +1,28 @@
 package moduloClientes.dominio;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_cliente", discriminatorType = DiscriminatorType.STRING)
 public abstract class Cliente {
+    @Id
     private String cedula;
+    @Column(nullable = false)
     private String nombreCompleto;
     private String telefono;
+    @Column(nullable = false)
     private String contraseña;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MedioPago> mediosDePago = new ArrayList<>();
-    private List<Carga> cargas = new ArrayList<>();
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Reclamo> reclamos;
+
+    protected Cliente() {
+    }
 
     public Cliente(String cedula, String nombreCompleto, String telefono, String contraseña) {
         this.cedula = cedula;
@@ -26,11 +39,11 @@ public abstract class Cliente {
         return mediosDePago;
     }
 
-    public void agregarMedioPago(MedioPago mediosDePago) {
-        this.mediosDePago.add(mediosDePago);
+    public void agregarMediosDePago(MedioPago medioDePago) {
+        this.mediosDePago.add(medioDePago);
     }
 
-    public List<Carga> getCargas() {
-        return cargas;
+    public void agregarReclamo(Reclamo reclamo) {
+        this.reclamos.add(reclamo);
     }
 }

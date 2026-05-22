@@ -9,10 +9,10 @@ import java.util.List;
 public class Cliente {
     @Id
     private String cedula;
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedioPago> mediosDePago = new ArrayList<>();
 
-    public Cliente() {
+    protected Cliente() {
     }
 
     public Cliente(String cedula) {
@@ -22,8 +22,8 @@ public class Cliente {
     public String getCedula() {
         return cedula;
     }
+
     public List<MedioPago> getMediosDePago() {
         return mediosDePago;
     }
-
 }

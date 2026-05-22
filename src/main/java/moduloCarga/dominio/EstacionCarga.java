@@ -15,65 +15,25 @@ public class EstacionCarga {
     private String departamento;
     private int longitud;
     private int latitud;
-    @OneToMany(mappedBy = "estacion", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "estacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cargador> cargadores = new ArrayList<>();
 
-    public EstacionCarga() {
+    protected EstacionCarga() {
+    }
+
+    public EstacionCarga(String descripcion, String calle, String departamento, int longitud, int latitud) {
+        this.descripcion = descripcion;
+        this.calle = calle;
+        this.departamento = departamento;
+        this.longitud = longitud;
+        this.latitud = latitud;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getCalle() {
-        return calle;
-    }
-
-    public void setCalle(String calle) {
-        this.calle = calle;
-    }
-
-    public String getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
-    }
-
-    public int getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(int longitud) {
-        this.longitud = longitud;
-    }
-
-    public int getLatitud() {
-        return latitud;
-    }
-
-    public void setLatitud(int latitud) {
-        this.latitud = latitud;
-    }
-
-    public List<Cargador> getCargadores() {
-        return cargadores;
-    }
-
-    public void setCargadores(List<Cargador> cargadores) {
-        this.cargadores = cargadores;
+    public void agregarCargador(Cargador cargador) {
+        cargadores.add(cargador);
     }
 }

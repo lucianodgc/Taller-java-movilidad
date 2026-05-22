@@ -1,6 +1,7 @@
 package moduloCarga.aplicacion;
 
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import moduloCarga.dominio.*;
 import moduloCarga.dominio.repositorio.ICargaRepository;
 import moduloCarga.interfase.CargadorDTO;
@@ -12,6 +13,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 public class CargaServiceImpl implements ICargaService {
 
     @Inject
@@ -37,12 +39,9 @@ public class CargaServiceImpl implements ICargaService {
 
         cargador.setEstado(EstadoCargador.OCUPADO);
         cargaRepository.guardarCargador(cargador);
-        Carga nuevaCarga = new Carga();
-        nuevaCarga.setCiCliente(ciCliente);
-        nuevaCarga.setCargador(cargador);
+        Carga nuevaCarga = new Carga(ciCliente, cargador, LocalDateTime.now(), EstadoCarga.ACTIVA);
         nuevaCarga.setReferenciaMedioPago(referenciaMedioPago);
-        nuevaCarga.setFechaInicio(LocalDateTime.now());
-        nuevaCarga.setEstado(EstadoCarga.ACTIVA);
+        cargador.agregarCargas(nuevaCarga);
 
         cargaRepository.guardarCarga(nuevaCarga);
     }
@@ -83,7 +82,7 @@ public class CargaServiceImpl implements ICargaService {
 
         int minutosDemora = (recargo.getHour() * 60) + recargo.getMinute();
 
-        float PRECIO_POR_MINUTO_DEMORA = 8.0f;//este seria el valor de la multa por cada minuto de demora.
+        float PRECIO_POR_MINUTO_DEMORA = 8.0f;
         float costoDemora = minutosDemora * PRECIO_POR_MINUTO_DEMORA;
 
 
@@ -102,12 +101,12 @@ public class CargaServiceImpl implements ICargaService {
     @Override
     public void altaEstacion(EstacionCargaDTO estacionCarga) {
 
-        EstacionCarga nuevaEstacion = new EstacionCarga();
-        nuevaEstacion.setDescripcion(estacionCarga.getDescripcion());
-        nuevaEstacion.setCalle(estacionCarga.getCalle());
-        nuevaEstacion.setDepartamento(estacionCarga.getDepartamento());
-        nuevaEstacion.setLatitud(estacionCarga.getLatitud());
-        nuevaEstacion.setLongitud(estacionCarga.getLongitud());
+        EstacionCarga nuevaEstacion = new EstacionCarga(
+                estacionCarga.getDescripcion(),
+                estacionCarga.getCalle(),
+                estacionCarga.getDepartamento(),
+                estacionCarga.getLongitud(),
+                estacionCarga.getLatitud());
 
         cargaRepository.guardarEstacion(nuevaEstacion);
     }
@@ -123,13 +122,20 @@ public class CargaServiceImpl implements ICargaService {
             throw new IllegalArgumentException("La estación de carga no existe.");
         }
 
-        Cargador nuevoCargador = new Cargador();
-        nuevoCargador.setPotenciaMinima(cargadorDTO.getPotenciaMinima());
-        nuevoCargador.setTieneCable(cargadorDTO.isTieneCable());
-        nuevoCargador.setEstacion(estacion);
-        nuevoCargador.setTipo(TipoCargador.valueOf(cargadorDTO.getTipo().toUpperCase()));
-        nuevoCargador.setTipoConector(TipoConector.valueOf(cargadorDTO.getTipoConector().toUpperCase()));
+        Cargador nuevoCargador = new Cargador(
+                cargadorDTO.getTipoCargador(),
+                cargadorDTO.isTieneCable(),
+                cargadorDTO.getTipoConector(),
+                estacion
+        );
+        if (cargadorDTO.getTipoCargador().equals(TipoCargador.RAPIDO)) {
+            nuevoCargador.setPotenciaMinima(cargadorDTO.getPotenciaMinima());
+        }
+        if (cargadorDTO.getEstadoCargador().equals(EstadoCargador.FUERA_DE_SERVICIO)) {
+            nuevoCargador.setFechaEstimadaReparacion(cargadorDTO.getFechaEstimadaReparacion());
+        }
         nuevoCargador.setEstado(EstadoCargador.DISPONIBLE);
+        estacion.agregarCargador(nuevoCargador);
 
         cargaRepository.guardarCargador(nuevoCargador);
     }

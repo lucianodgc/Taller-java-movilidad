@@ -11,7 +11,7 @@ public class MedioPago {
     private String referencia;
 
     @ManyToOne
-    @JoinColumn(name = "CLIENTE_CEDULA")
+    @JoinColumn(name = "ciCliente")
     private Cliente cliente;
 
     public MedioPago() {}
