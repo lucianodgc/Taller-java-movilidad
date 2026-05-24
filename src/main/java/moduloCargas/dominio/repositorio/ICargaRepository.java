@@ -1,14 +1,15 @@
-package moduloCarga.dominio.repositorio;
+package moduloCargas.dominio.repositorio;
 
-import moduloCarga.dominio.Carga;
-import moduloCarga.dominio.Cargador;
-import moduloCarga.dominio.Cliente;
-import moduloCarga.dominio.EstacionCarga;
+import moduloCargas.dominio.Carga;
+import moduloCargas.dominio.Cargador;
+import moduloCargas.dominio.Cliente;
+import moduloCargas.dominio.EstacionCarga;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ICargaRepository {
+    void altaCliente(Cliente cliente);
     Cliente buscarCliente(String id);
     List<Carga> buscarHistoricoCliente(String ciCliente, LocalDateTime fechaInicio, LocalDateTime fechaFin);
     boolean existeMedioPago(String ciCliente, String referenciaMedioPago);

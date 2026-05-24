@@ -1,4 +1,4 @@
-package moduloCarga.dominio;
+package moduloCargas.dominio;
 
 public enum TipoCargador {
     RAPIDO,

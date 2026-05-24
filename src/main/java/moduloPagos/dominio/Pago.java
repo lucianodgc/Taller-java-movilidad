@@ -2,15 +2,17 @@ package moduloPagos.dominio;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "PagoPagos")
 public class Pago {
     @Id
     private Long id;
-    private String ciCliente;
+    @ManyToOne
+    private Cliente cliente;
     private Float monto;
     private LocalDateTime fechaPago;
     @OneToOne
@@ -19,8 +21,8 @@ public class Pago {
     protected Pago() {
     }
 
-    public Pago(String ciCliente, Float monto, LocalDateTime fechaPago, MedioPago medioPago) {
-        this.ciCliente = ciCliente;
+    public Pago(Cliente cliente, Float monto, LocalDateTime fechaPago, MedioPago medioPago) {
+        this.cliente = cliente;
         this.monto = monto;
         this.fechaPago = fechaPago;
         this.medioPago = medioPago;

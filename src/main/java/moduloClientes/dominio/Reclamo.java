@@ -2,7 +2,7 @@ package moduloClientes.dominio;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "ReclamoClientes")
 public class Reclamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

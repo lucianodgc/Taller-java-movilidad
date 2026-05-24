@@ -1,6 +1,7 @@
-package moduloCarga.interfase;
+package moduloCargas.interfase;
 
-import moduloCarga.dominio.*;
+import moduloCargas.dominio.*;
+import moduloPagos.interfase.CargaDTO;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,4 +21,8 @@ public interface ICargaService {
     void altaCargador(CargadorDTO cargadorDTO);
 
     List<EstacionCarga> obtenerEstaciones();
+
+    void altaCliente(String ciCliente);
+
+    void altaMedioPago(MedioPagoDTO medioPagoDTO);
 }

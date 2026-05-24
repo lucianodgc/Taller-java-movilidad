@@ -3,7 +3,7 @@ package moduloClientes.dominio;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-@Entity
+@Entity(name = "CuentaUTEClientes")
 @DiscriminatorValue("UTE")
 public class CuentaUTE extends MedioPago{
     String numeroCuenta;

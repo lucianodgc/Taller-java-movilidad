@@ -3,7 +3,7 @@ package moduloClientes.dominio;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-@Entity
+@Entity(name = "ClienteComunClientes")
 @DiscriminatorValue("COMUN")
 public class ClienteComun extends Cliente{
 

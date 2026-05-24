@@ -4,15 +4,16 @@ import moduloPagos.dominio.Carga;
 import moduloPagos.dominio.Cliente;
 import moduloPagos.dominio.Pago;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IPagosRepository {
-    void guardarPago(Pago pago);
 
     List<Pago> obtenerPagosCliente(String ciCliente);
 
-    List<Carga> obtenerCargasCliente(String ciCliente, LocalDate fechaInicio, LocalDate fechaFin);
+    List<Carga> obtenerCargasCliente(String ciCliente, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
     Cliente buscarCliente(String ciCliente);
+
+    void altaCliente(Cliente cliente);
 }

@@ -1,11 +1,11 @@
-package moduloCarga.dominio;
+package moduloCargas.dominio;
 
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "EstacionCargaCargas")
 public class EstacionCarga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

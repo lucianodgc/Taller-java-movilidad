@@ -1,11 +1,11 @@
-package moduloCarga.infraestructura.persistencia;
+package moduloCargas.infraestructura.persistencia;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
-import moduloCarga.dominio.*;
-import moduloCarga.dominio.repositorio.ICargaRepository;
+import moduloCargas.dominio.*;
+import moduloCargas.dominio.repositorio.ICargaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +15,14 @@ public class CargaRepositoryImpl implements ICargaRepository {
     @PersistenceContext
     private EntityManager em;
 
-
+    @Override
+    public void altaCliente(Cliente cliente) {
+        if (cliente.getCedula() == null) {
+            em.persist(cliente);
+        } else {
+            em.merge(cliente);
+        }
+    }
 
     @Override
     public Cliente buscarCliente(String idCliente) {
@@ -23,7 +30,7 @@ public class CargaRepositoryImpl implements ICargaRepository {
     }
 
     public List<Carga> buscarHistoricoCliente(String ciCliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        String sql = "SELECT c FROM Carga c WHERE c.ciCliente = :ci " + "AND c.fechaInicio BETWEEN :inicio AND :fin " + "ORDER BY c.fechaInicio DESC";
+        String sql = "SELECT c FROM CargaCargas c WHERE c.cliente.cedula = :ci " + "AND c.fechaInicio BETWEEN :inicio AND :fin " + "ORDER BY c.fechaInicio DESC";
 
         return em.createQuery(sql, Carga.class)
                 .setParameter("ci", ciCliente)
@@ -35,7 +42,7 @@ public class CargaRepositoryImpl implements ICargaRepository {
     @Override
     public boolean existeMedioPago(String ciCliente, String referenciaMedioPago) {
         try {
-            String sql = "SELECT COUNT(c) FROM Cliente c JOIN c.mediosDePago m WHERE c.cedula = :ci AND m.referencia = :ref";
+            String sql = "SELECT COUNT(c) FROM ClienteCargas c JOIN c.mediosDePago m WHERE c.cedula = :ci AND m.referencia = :ref";
 
             Long conteo = em.createQuery(sql, Long.class)
                     .setParameter("ci", ciCliente)
@@ -59,7 +66,7 @@ public class CargaRepositoryImpl implements ICargaRepository {
 
     @Override
     public Carga buscarCargaActiva(String ciCliente) {
-        String sql = "SELECT c FROM Carga c WHERE c.ciCliente = :ci AND c.estado = :estado";
+        String sql = "SELECT c FROM CargaCargas c WHERE c.cliente.cedula = :ci AND c.estado = :estado";
         try {
             return em.createQuery(sql, Carga.class).setParameter("ci", ciCliente).setParameter("estado", EstadoCarga.ACTIVA).getSingleResult();
         } catch (NoResultException e) {
@@ -69,7 +76,7 @@ public class CargaRepositoryImpl implements ICargaRepository {
 
     @Override
     public Carga buscarCargaActivaPorCargador(String idCargador) {
-        String sql = "SELECT c FROM Carga c WHERE c.cargador.id = :idCargador AND c.estado = :estado";
+        String sql = "SELECT c FROM CargaCargas c WHERE c.cargador.id = :idCargador AND c.estado = :estado";
         try {
             return em.createQuery(sql, Carga.class).setParameter("idCargador", Long.valueOf(idCargador)).setParameter("estado", EstadoCarga.ACTIVA).getSingleResult();
         } catch (NoResultException e) {
@@ -97,7 +104,7 @@ public class CargaRepositoryImpl implements ICargaRepository {
 
     @Override
     public List<EstacionCarga> buscarEstaciones() {
-        String sql = "SELECT e FROM EstacionCarga e";
+        String sql = "SELECT e FROM EstacionCargaCargas e";
         return em.createQuery(sql, EstacionCarga.class).getResultList();
     }
 

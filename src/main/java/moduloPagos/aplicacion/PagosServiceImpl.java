@@ -8,10 +8,11 @@ import moduloPagos.dominio.Cliente;
 import moduloPagos.dominio.MedioPago;
 import moduloPagos.dominio.Pago;
 import moduloPagos.dominio.repositorio.IPagosRepository;
+import moduloPagos.interfase.CargaDTO;
 import moduloPagos.interfase.IPagosService;
+import moduloPagos.interfase.MedioPagoDTO;
 import moduloPagos.interfase.PagoDTO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,23 +24,41 @@ public class PagosServiceImpl implements IPagosService {
     IPagosRepository pagosRepository;
 
     @Override
-    public void pagarCarga(String ciCliente, float importe, MedioPago medioPago) {
-        Cliente cliente = pagosRepository.buscarCliente(ciCliente);
+    public void pagarCarga(PagoDTO pagoDTO) {
+        Cliente cliente = pagosRepository.buscarCliente(pagoDTO.getCliente());
         if (cliente == null) throw new IllegalArgumentException("Cliente no existe.");
 
-        Pago pago = new Pago(ciCliente, importe, LocalDateTime.now(), medioPago);
+        Pago pago = new Pago(cliente, pagoDTO.getMonto(), LocalDateTime.now(), pagoDTO.getMedioPago());
         cliente.agregarPago(pago);
-
-        pagosRepository.guardarPago(pago);
     }
 
     @Override
-    public List<Pago> consultarPagos(PagoDTO dataPago, LocalDate fechaInicio, LocalDate fechaFin) {
-        List<Pago> pagos = pagosRepository.obtenerPagosCliente(dataPago.getCliente().getCedula());
-        List<Carga> cargas = pagosRepository.obtenerCargasCliente(dataPago.getCliente().getCedula(), fechaInicio, fechaFin);
+    public List<Pago> consultarPagos(String ciCliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        List<Pago> pagos = pagosRepository.obtenerPagosCliente(ciCliente);
+        List<Carga> cargas = pagosRepository.obtenerCargasCliente(ciCliente, fechaInicio, fechaFin);
         if (cargas.size() != pagos.size()) {
             throw new RuntimeException("La lista de pagos no coincide con la lista de cargas");
         }
         return pagos;
+    }
+
+    @Override
+    public void altaCliente(String ciCliente) {
+        Cliente cliente = new Cliente(ciCliente);
+        pagosRepository.altaCliente(cliente);
+    }
+
+    @Override
+    public void altaCarga(CargaDTO cargaDTO) {
+        Cliente cliente = pagosRepository.buscarCliente(cargaDTO.getCiCliente());
+        Carga carga = new Carga(cargaDTO.getId(), cliente, cargaDTO.getFechaInicio(), cargaDTO.getFechaFin());
+        cliente.agregarCarga(carga);
+    }
+
+    @Override
+    public void altaMedioPago(MedioPagoDTO medioPagoDTO) {
+        Cliente cliente = pagosRepository.buscarCliente(medioPagoDTO.getCiCliente());
+        MedioPago medioPago = new MedioPago(medioPagoDTO.getReferencia(), cliente);
+        cliente.agregarMedioPago(medioPago);
     }
 }

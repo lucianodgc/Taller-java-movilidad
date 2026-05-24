@@ -1,15 +1,16 @@
-package moduloCarga.dominio;
+package moduloCargas.dominio;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "CargaCargas")
 public class Carga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String ciCliente;
+    @ManyToOne
+    private Cliente cliente;
     @ManyToOne
     @JoinColumn(name = "idCargador")
     private Cargador cargador;
@@ -26,8 +27,8 @@ public class Carga {
     protected Carga() {
     }
 
-    public Carga(String ciCliente, Cargador cargador, LocalDateTime fechaInicio, EstadoCarga estado) {
-        this.ciCliente = ciCliente;
+    public Carga(Cliente cliente, Cargador cargador, LocalDateTime fechaInicio, EstadoCarga estado) {
+        this.cliente = cliente;
         this.cargador = cargador;
         this.fechaInicio = fechaInicio;
         this.estado = estado;
@@ -41,12 +42,28 @@ public class Carga {
         return cargador;
     }
 
-    public void setReferenciaMedioPago(String referenciaMedioPago) {
-        this.referenciaMedioPago = referenciaMedioPago;
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public LocalDateTime getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public LocalDateTime getFechaFin() {
+        return fechaFin;
+    }
+
+    public EstadoCarga getEstado() {
+        return estado;
     }
 
     public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public void setReferenciaMedioPago(String referenciaMedioPago) {
+        this.referenciaMedioPago = referenciaMedioPago;
     }
 
     public void setImporteTotal(float importeTotal) {

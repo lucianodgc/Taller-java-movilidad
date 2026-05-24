@@ -1,11 +1,11 @@
-package moduloCarga.dominio;
+package moduloCargas.dominio;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-@Entity
+@Entity(name = "MedioPago-Cargas")
 public class MedioPago {
     @Id
     private String referencia;

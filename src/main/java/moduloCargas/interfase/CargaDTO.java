@@ -1,4 +1,4 @@
-package moduloPagos.interfase;
+package moduloCargas.interfase;
 
 import java.time.LocalDateTime;
 

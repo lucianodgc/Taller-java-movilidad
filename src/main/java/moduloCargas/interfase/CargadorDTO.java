@@ -1,8 +1,8 @@
-package moduloCarga.interfase;
+package moduloCargas.interfase;
 
-import moduloCarga.dominio.EstadoCargador;
-import moduloCarga.dominio.TipoCargador;
-import moduloCarga.dominio.TipoConector;
+import moduloCargas.dominio.EstadoCargador;
+import moduloCargas.dominio.TipoCargador;
+import moduloCargas.dominio.TipoConector;
 
 import java.time.LocalDate;
 

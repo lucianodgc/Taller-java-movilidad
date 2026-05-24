@@ -9,6 +9,7 @@ import moduloClientes.interfase.ClienteDTO;
 import moduloClientes.interfase.IClienteService;
 import moduloClientes.interfase.MedioPagoDTO;
 import moduloClientes.interfase.ReclamoDTO;
+import moduloClientes.interfase.evento.out.PublicadorEvento;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,9 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Inject
     private IClienteRepository clienteRepository;
+
+    @Inject
+    private PublicadorEvento evento;
 
     @Override
     public void registrarCliente(ClienteDTO dataCliente) {
@@ -31,6 +35,7 @@ public class ClienteServiceImpl implements IClienteService {
             cliente = new ClienteProfesional(dataCliente.getCedula(), dataCliente.getNombreCompleto(), dataCliente.getTelefono(), dataCliente.getContraseña(), dataCliente.getTipoProfesional(), dataCliente.getDescuento());
         }
         clienteRepository.guardarCliente(cliente);
+        evento.publicarNuevoCliente(dataCliente.getCedula());
     }
 
     @Override
@@ -48,6 +53,7 @@ public class ClienteServiceImpl implements IClienteService {
         }
         cliente.agregarMediosDePago(medio);
         clienteRepository.guardarMedioPago(medio);
+        evento.publicarNuevoMedioPago(medio.getReferencia(), ciCliente);
     }
 
     @Override

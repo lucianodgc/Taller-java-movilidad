@@ -4,23 +4,34 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "CargaPagos")
 public class Carga {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String ciCliente;
+    @ManyToOne
+    private Cliente cliente;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
 
     protected Carga() {
     }
 
-    public Carga(String ciCliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        this.ciCliente = ciCliente;
+    public Carga(Long id, Cliente cliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        this.id = id;
+        this.cliente = cliente;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public LocalDateTime getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public LocalDateTime getFechaFin() {
+        return fechaFin;
+    }
 }

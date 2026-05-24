@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
-@Entity
+@Entity(name = "ClienteProfesionalClientes")
 @DiscriminatorValue("PROFESIONAL")
 public class ClienteProfesional extends Cliente{
     @Enumerated(EnumType.STRING)

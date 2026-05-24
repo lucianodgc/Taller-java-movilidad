@@ -1,14 +1,14 @@
-package moduloPagos.interfase;
+package moduloCargas.interfase.evento.out;
 
 import java.time.LocalDateTime;
 
-public class CargaDTO {
+public class CargasNuevaCarga {
     private Long id;
     private String ciCliente;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
 
-    public CargaDTO(Long id, String ciCliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+    public CargasNuevaCarga(Long id, String ciCliente, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         this.id = id;
         this.ciCliente = ciCliente;
         this.fechaInicio = fechaInicio;
@@ -30,4 +30,5 @@ public class CargaDTO {
     public LocalDateTime getFechaFin() {
         return fechaFin;
     }
+
 }

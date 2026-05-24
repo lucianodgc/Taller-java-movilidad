@@ -12,7 +12,16 @@
         <class>moduloClientes.dominio.MedioPago</class>
         <class>moduloClientes.dominio.Tarjeta</class>
         <class>moduloClientes.dominio.CuentaUTE</class>
-
+        <class>moduloClientes.dominio.Reclamo</class>
+        <class>moduloCargas.dominio.Carga</class>
+        <class>moduloCargas.dominio.Cliente</class>
+        <class>moduloCargas.dominio.Cargador</class>
+        <class>moduloCargas.dominio.EstacionCarga</class>
+        <class>moduloCargas.dominio.MedioPago</class>
+        <class>moduloPagos.dominio.Carga</class>
+        <class>moduloPagos.dominio.MedioPago</class>
+        <class>moduloPagos.dominio.Cliente</class>
+        <class>moduloPagos.dominio.Pago</class>
 
         <properties>
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />

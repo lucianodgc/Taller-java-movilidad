@@ -1,4 +1,4 @@
-package moduloCarga.interfase;
+package moduloCargas.interfase;
 
 public class EstacionCargaDTO {
     private String descripcion;

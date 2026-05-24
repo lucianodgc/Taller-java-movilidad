@@ -8,13 +8,15 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "ClientePagos")
 public class Cliente {
     @Id
     private String cedula;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedioPago> mediosDePago = new ArrayList<>();
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pago> pagos = new ArrayList<>();
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Carga> cargas = new ArrayList<>();
 
     protected Cliente() {
@@ -34,5 +36,13 @@ public class Cliente {
 
     public void agregarPago(Pago pago) {
         pagos.add(pago);
+    }
+
+    public void agregarCarga(Carga carga) {
+        cargas.add(carga);
+    }
+
+    public void agregarMedioPago(MedioPago medioPago) {
+        mediosDePago.add(medioPago);
     }
 }

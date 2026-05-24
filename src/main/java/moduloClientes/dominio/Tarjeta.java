@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 
 import java.time.LocalDate;
 
-@Entity
+@Entity(name = "TarjetaClientes")
 @DiscriminatorValue("TARJETA")
 public class Tarjeta extends MedioPago {
     String numero;

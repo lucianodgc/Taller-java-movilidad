@@ -1,12 +1,15 @@
-package moduloCarga.aplicacion;
+package moduloCargas.aplicacion;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import moduloCarga.dominio.*;
-import moduloCarga.dominio.repositorio.ICargaRepository;
-import moduloCarga.interfase.CargadorDTO;
-import moduloCarga.interfase.EstacionCargaDTO;
-import moduloCarga.interfase.ICargaService;
+import moduloCargas.dominio.*;
+import moduloCargas.dominio.repositorio.ICargaRepository;
+import moduloCargas.interfase.CargaDTO;
+import moduloCargas.interfase.CargadorDTO;
+import moduloCargas.interfase.EstacionCargaDTO;
+import moduloCargas.interfase.MedioPagoDTO;
+import moduloCargas.interfase.ICargaService;
+import moduloCargas.interfase.evento.out.PublicadorEvento;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,6 +21,9 @@ public class CargaServiceImpl implements ICargaService {
 
     @Inject
     private ICargaRepository cargaRepository;
+
+    @Inject
+    private PublicadorEvento evento;
 
     @Override
     public void iniciarCarga(String ciCliente, String idCargador, String referenciaMedioPago) {
@@ -39,7 +45,7 @@ public class CargaServiceImpl implements ICargaService {
 
         cargador.setEstado(EstadoCargador.OCUPADO);
         cargaRepository.guardarCargador(cargador);
-        Carga nuevaCarga = new Carga(ciCliente, cargador, LocalDateTime.now(), EstadoCarga.ACTIVA);
+        Carga nuevaCarga = new Carga(cliente, cargador, LocalDateTime.now(), EstadoCarga.ACTIVA);
         nuevaCarga.setReferenciaMedioPago(referenciaMedioPago);
         cargador.agregarCargas(nuevaCarga);
 
@@ -96,6 +102,8 @@ public class CargaServiceImpl implements ICargaService {
 
         cargaRepository.guardarCarga(cargaActiva);
         cargaRepository.guardarCargador(cargador);
+
+        evento.publicarNuevaCarga(cargaActiva);
     }
 
     @Override
@@ -148,5 +156,18 @@ public class CargaServiceImpl implements ICargaService {
             return new ArrayList<>();
         }
         return estaciones;
+    }
+
+    @Override
+    public void altaCliente(String ciCliente) {
+        Cliente cliente = new Cliente(ciCliente);
+        cargaRepository.altaCliente(cliente);
+    }
+
+    @Override
+    public void altaMedioPago(MedioPagoDTO medioPagoDTO) {
+        Cliente cliente = cargaRepository.buscarCliente(medioPagoDTO.getCiCliente());
+        MedioPago medioPago = new MedioPago(medioPagoDTO.getReferencia(), cliente);
+        cliente.agregarMedioPago(medioPago);
     }
 }

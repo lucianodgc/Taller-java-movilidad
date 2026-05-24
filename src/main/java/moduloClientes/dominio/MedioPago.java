@@ -2,7 +2,7 @@ package moduloClientes.dominio;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "MedioPagoClientes")
 @Table(name = "cliente_medios_pago")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_pago", discriminatorType = DiscriminatorType.STRING)

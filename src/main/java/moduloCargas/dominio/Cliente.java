@@ -1,16 +1,18 @@
-package moduloCarga.dominio;
+package moduloCargas.dominio;
 
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "ClienteCargas")
 public class Cliente {
     @Id
     private String cedula;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedioPago> mediosDePago = new ArrayList<>();
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Carga> cargas = new ArrayList<>();
 
     protected Cliente() {
     }
@@ -23,7 +25,15 @@ public class Cliente {
         return cedula;
     }
 
+    public void agregarCarga(Carga carga) {
+        cargas.add(carga);
+    }
+
     public List<MedioPago> getMediosDePago() {
         return mediosDePago;
+    }
+
+    public void agregarMedioPago(MedioPago medioPago) {
+        mediosDePago.add(medioPago);
     }
 }
