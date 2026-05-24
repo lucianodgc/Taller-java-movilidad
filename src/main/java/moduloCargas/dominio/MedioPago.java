@@ -1,11 +1,9 @@
 package moduloCargas.dominio;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
-@Entity(name = "MedioPago-Cargas")
+@Entity(name = "MedioPagoCargas")
+@Table(name = "Cargas_MedioPago")
 public class MedioPago {
     @Id
     private String referencia;

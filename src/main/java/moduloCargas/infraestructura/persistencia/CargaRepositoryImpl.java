@@ -12,6 +12,7 @@ import java.util.List;
 
 @ApplicationScoped
 public class CargaRepositoryImpl implements ICargaRepository {
+
     @PersistenceContext
     private EntityManager em;
 

@@ -3,7 +3,7 @@ package moduloClientes.dominio;
 import jakarta.persistence.*;
 
 @Entity(name = "MedioPagoClientes")
-@Table(name = "cliente_medios_pago")
+@Table(name = "Clientes_MedioPago")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_pago", discriminatorType = DiscriminatorType.STRING)
 public abstract class MedioPago {

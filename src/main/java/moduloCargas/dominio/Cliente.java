@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "ClienteCargas")
+@Table(name = "Cargas_Cliente")
 public class Cliente {
     @Id
     private String cedula;

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "CargadorCargas")
+@Table(name = "Cargas_Cargador")
 public class Cargador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

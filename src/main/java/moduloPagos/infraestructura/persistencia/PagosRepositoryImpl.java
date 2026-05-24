@@ -1,7 +1,9 @@
 package moduloPagos.infraestructura.persistencia;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 import moduloPagos.dominio.Carga;
 import moduloPagos.dominio.Cliente;
 import moduloPagos.dominio.Pago;
@@ -10,8 +12,10 @@ import moduloPagos.dominio.repositorio.IPagosRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@ApplicationScoped
 public class PagosRepositoryImpl implements IPagosRepository {
 
+    @PersistenceContext
     EntityManager em;
 
     @Override

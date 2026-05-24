@@ -1,13 +1,11 @@
 package moduloPagos.dominio;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity(name = "PagoPagos")
+@Table(name = "Pagos_Pago")
 public class Pago {
     @Id
     private Long id;

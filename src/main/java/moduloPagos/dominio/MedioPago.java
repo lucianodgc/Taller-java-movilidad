@@ -3,8 +3,10 @@ package moduloPagos.dominio;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity(name = "MedioPagoPagos")
+@Table(name = "Pagos_MedioPago")
 public class MedioPago {
     @Id
     private String referencia;

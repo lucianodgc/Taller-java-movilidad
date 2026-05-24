@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "ClienteClientes")
+@Table(name = "Clientes_Cliente")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_cliente", discriminatorType = DiscriminatorType.STRING)
 public abstract class Cliente {

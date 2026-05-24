@@ -1,14 +1,12 @@
 package moduloPagos.dominio;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "ClientePagos")
+@Table(name = "Pagos_Cliente")
 public class Cliente {
     @Id
     private String cedula;
