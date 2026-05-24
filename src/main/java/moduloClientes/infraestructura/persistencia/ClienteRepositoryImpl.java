@@ -32,7 +32,7 @@ public class ClienteRepositoryImpl implements IClienteRepository {
 
     @Override
     public List<Cliente> obtenerClientes() {
-        String sql = "SELECT c FROM Cliente c";
+        String sql = "SELECT c FROM ClienteClientes c";
         return em.createQuery(sql, Cliente.class).getResultList();
     }
 
