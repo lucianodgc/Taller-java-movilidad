@@ -45,8 +45,7 @@ Los eventos son publicados por sus respectivos modulos:
 
 Quién escucha los eventos:
 
-- moduloCargas, ObserverModuloCargas escucha ClientesNuevoCliente y llama a altaCliente(...), ClientesNuevoMedioPago
-Llama a altaMedioPago(...). Esto permite que el módulo de cargas mantenga información básica de clientes y medios de pago sin depender directamente de la lógica interna de moduloClientes.
+- moduloCargas, ObserverModuloCargas escucha a los eventos: ClientesNuevoCliente y llama a cargasService.altaCliente(...), ClientesNuevoMedioPago y llama a cargasService.altaMedioPago(...). Esto permite que el módulo de cargas mantenga información básica de clientes y medios de pago sin depender directamente de la lógica interna de moduloClientes.
 
-- moduloPagos, ObserverModuloPagos escucha a ClientesNuevoCliente y llama a pagosService.altaCliente(...), ClientesNuevoMedioPago llama a pagosService.altaMedioPago(...), CargasNuevaCarga llama a pagosService.altaCarga(...)
+- moduloPagos, ObserverModuloPagos escucha a los eventos: ClientesNuevoCliente y llama a pagosService.altaCliente(...), ClientesNuevoMedioPago y llama a pagosService.altaMedioPago(...), CargasNuevaCarga y llama a pagosService.altaCarga(...).
 Así moduloPagos se entera de nuevos clientes, nuevos medios de pago y nuevas cargas para mantener su propia información.
