@@ -1,6 +1,6 @@
 Taller de Java 2026
 
-Esta aplicación consiste en un sistema de gestión de movilidad eléctrica  desarrollado en java utilizando Jakarta EE. La estructura está organizada en tres módulos diferentes, cada uno con su propia lógica, persistecia y servicios
+Esta aplicación consiste en un sistema de gestión de movilidad eléctrica  desarrollado en java utilizando Jakarta EE. La estructura está organizada en tres módulos diferentes, cada uno con su propia lógica, persistecia y servicios.
 
 ---- MODULOS ------------------------------------------------------------------------------------------------------- 
 
@@ -10,36 +10,38 @@ Cada modulo se compone de:
 - dominio: modelos y reglas del negocio
 - infraestructura(persistencia): acceso a datos
 
-se usa también Jakarta EE/CDI para:
+Se usa también Jakarta EE/CDI para:
 - @Inject: para inyección de dependencias
 - @Transactional: para transacciones de servicios
 
 Los modulos que componen el sistema son los siguientes:
+
 - moduloClientes
-Se encarga de gestionar clientes y sus métodos de pago, es responzable de registrar clientes, dar de alta medios de pago consultar clientes, obtener clientes por ci y registrar reclamos
+Se encarga de gestionar clientes y sus métodos de pago, es responzable de registrar clientes, dar de alta medios de pago, consultar clientes, obtener clientes por ci y registrar reclamos.
 
 - moduloCarga
-gestiona la infraestructura de carga y las sesiones, es responzable de registrar estaciones de carga, registrar cargadores, inicar una carga para un cliente, consultar la carga actual, consultar el historial de cargas y finalizar una carga y calcular importes/recargos
+Gestiona la infraestructura de carga y las sesiones, es responzable de registrar estaciones de carga, registrar cargadores, inicar una carga para un cliente, consultar la carga actual, consultar el historial de cargas, finalizar una carga y calcular importes/recargos.
 
 - moduloPagos
-se encarga de gestionar pagos relacionados con cargas, es responzable de registrar el pago de una carga y consultar pagos de un cliente en un rango de fechas
+se encarga de gestionar pagos relacionados con cargas, es responsable de registrar el pago de una carga y consultar pagos de un cliente en un rango de fechas.
 
 ---- EVENTOS -------------------------------------------------------------------------------------------------------
 
 El proyecto además, hace uso de eventos:
-- ClientesNuevCliente (Clientes)
-se publica cuando se registra un nuevo cliente en moduloClientes, contiene la cedula del cliente
+- ClientesNuevoCliente (Clientes)
+se publica cuando se registra un nuevo cliente en moduloClientes, contiene la cedula del cliente.
 
 - ClientesNuevoMedioPago (Clientes)
-se Publica cuando un cliente agrega un nuevo medio de pago, contiene la referencia del medio de pago y la ci del cliente
+se publica cuando un cliente agrega un nuevo medio de pago, contiene la referencia del medio de pago y la ci del cliente.
 
 - CargasNuevaCarga (Carga)
-se publica cuando finaliza una carga en moduloCarga, contiene el id de la carga la ci del cliente y la fecha de inicio
+se publica cuando finaliza una carga en moduloCarga, contiene el id de la carga la ci del cliente y la fecha de inicio.
 
 Los eventos son publicados por sus respectivos modulos:
-- moduloClientes publica publicarNuevoCliente() después de crear un cliente y publicarNuevoMedioPago() después de registrar un medio de pago
 
-- moduloCargas publica publicarNuevaCarga(cargaAciva) cuando finaliza una carga
+- moduloClientes publica publicarNuevoCliente() después de crear un cliente y publicarNuevoMedioPago() después de registrar un medio de pago.
+
+- moduloCargas publica publicarNuevaCarga(cargaAciva) cuando finaliza una carga.
 
 Quién escucha los eventos:
 
