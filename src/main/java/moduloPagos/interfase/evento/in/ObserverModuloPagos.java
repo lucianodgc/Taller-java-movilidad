@@ -25,7 +25,6 @@ public class ObserverModuloPagos {
     }
 
     public void accept(@Observes ClientesNuevoMedioPago event) {
-        MedioPagoDTO medioPagoDTO = new MedioPagoDTO(event.getReferencia(), event.getCiCliente());
-        pagosService.altaMedioPago(medioPagoDTO);
+        pagosService.altaMedioPago(event.getCiCliente(), event.getReferencia());
     }
 }
