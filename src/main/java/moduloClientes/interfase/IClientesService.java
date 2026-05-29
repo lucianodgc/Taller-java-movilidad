@@ -1,11 +1,12 @@
 package moduloClientes.interfase;
 
 import moduloClientes.dominio.Cliente;
-import moduloClientes.dominio.MedioPago;
+import moduloClientes.interfase.dto.ClienteDTO;
+import moduloClientes.interfase.dto.MedioPagoDTO;
 
 import java.util.List;
 
-public interface  IClienteService {
+public interface IClientesService {
     void registrarCliente(ClienteDTO cliente);
 
     void altaMedioPago(String ciCliente, MedioPagoDTO medioPago);
@@ -14,5 +15,5 @@ public interface  IClienteService {
 
     Cliente obtenerCliente(String ciCliente);
 
-    void realizarReclamo(ReclamoDTO dataReclamo);
+    void realizarReclamo(String ciCliente, String comentario);
 }

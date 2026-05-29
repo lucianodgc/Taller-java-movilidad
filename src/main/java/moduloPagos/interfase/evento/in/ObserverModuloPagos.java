@@ -6,9 +6,8 @@ import jakarta.inject.Inject;
 import moduloCargas.interfase.evento.out.CargasNuevaCarga;
 import moduloClientes.interfase.evento.out.ClientesNuevoCliente;
 import moduloClientes.interfase.evento.out.ClientesNuevoMedioPago;
-import moduloPagos.interfase.CargaDTO;
+import moduloPagos.interfase.dto.CargaDTO;
 import moduloPagos.interfase.IPagosService;
-import moduloPagos.interfase.MedioPagoDTO;
 
 @ApplicationScoped
 public class ObserverModuloPagos {

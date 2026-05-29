@@ -37,4 +37,20 @@ public class EstacionCarga {
     public void agregarCargador(Cargador cargador) {
         cargadores.add(cargador);
     }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public String getDepartamento() {
+        return departamento;
+    }
+
+    public List<Cargador> getCargadores() {
+        return cargadores;
+    }
 }

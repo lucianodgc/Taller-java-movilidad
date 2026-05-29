@@ -86,4 +86,8 @@ public class Carga {
     public void setEstado(EstadoCarga estado) {
         this.estado = estado;
     }
+
+    public float getImporteTotal() {
+        return importeTotal;
+    }
 }

@@ -1,6 +1,8 @@
 package moduloPagos.interfase;
 
 import moduloPagos.dominio.Pago;
+import moduloPagos.interfase.dto.CargaDTO;
+import moduloPagos.interfase.dto.PagoDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,5 +16,5 @@ public interface IPagosService {
 
     void altaCarga(CargaDTO cargaDTO);
 
-    void altaMedioPago(MedioPagoDTO medioPagoDTO);
+    void altaMedioPago(String ciCliente, String referencia);
 }

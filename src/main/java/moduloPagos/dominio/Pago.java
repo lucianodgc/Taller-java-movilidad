@@ -29,4 +29,16 @@ public class Pago {
     public Long getId() {
         return id;
     }
+
+    public Float getMonto() {
+        return monto;
+    }
+
+    public LocalDateTime getFechaPago() {
+        return fechaPago;
+    }
+
+    public MedioPago getMedioPago() {
+        return medioPago;
+    }
 }

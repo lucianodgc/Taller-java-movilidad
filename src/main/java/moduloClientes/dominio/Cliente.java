@@ -36,6 +36,14 @@ public abstract class Cliente {
         return cedula;
     }
 
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
     public List<MedioPago> getMediosDePago() {
         return mediosDePago;
     }

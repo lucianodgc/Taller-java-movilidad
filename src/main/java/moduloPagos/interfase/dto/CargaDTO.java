@@ -1,4 +1,4 @@
-package moduloPagos.interfase;
+package moduloPagos.interfase.dto;
 
 import java.time.LocalDateTime;
 

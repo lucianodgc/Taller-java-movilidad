@@ -21,7 +21,11 @@ public class ClienteProfesional extends Cliente{
         this.porcentajeDescuento = descuento;
     }
 
-    public float obtenerDescuento() {
-        return this.porcentajeDescuento;
+    public TipoProfesional getTipo() {
+        return tipo;
+    }
+
+    public float getPorcentajeDescuento() {
+        return porcentajeDescuento;
     }
 }

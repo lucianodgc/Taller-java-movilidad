@@ -5,10 +5,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import moduloClientes.dominio.*;
 import moduloClientes.dominio.repositorio.IClienteRepository;
-import moduloClientes.interfase.ClienteDTO;
-import moduloClientes.interfase.IClienteService;
-import moduloClientes.interfase.MedioPagoDTO;
-import moduloClientes.interfase.ReclamoDTO;
+import moduloClientes.interfase.dto.ClienteDTO;
+import moduloClientes.interfase.IClientesService;
+import moduloClientes.interfase.dto.MedioPagoDTO;
 import moduloClientes.interfase.evento.out.PublicadorEvento;
 
 import java.util.List;
@@ -16,13 +15,21 @@ import java.util.UUID;
 
 @ApplicationScoped
 @Transactional
-public class ClienteServiceImpl implements IClienteService {
+public class ClientesServiceImpl implements IClientesService {
 
     @Inject
     private IClienteRepository clienteRepository;
 
     @Inject
     private PublicadorEvento evento;
+
+    private Cliente buscarClienteOExcepcion(String ciCliente) {
+        Cliente cliente = clienteRepository.buscarPorCedula(ciCliente);
+        if (cliente == null) {
+            throw new IllegalArgumentException("El cliente no existe.");
+        }
+        return cliente;
+    }
 
     @Override
     public void registrarCliente(ClienteDTO dataCliente) {
@@ -40,8 +47,7 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public void altaMedioPago(String ciCliente, MedioPagoDTO dataMedioPago) {
-        Cliente cliente = clienteRepository.buscarPorCedula(ciCliente);
-        if (cliente == null) throw new RuntimeException("Cliente no existe");
+        Cliente cliente = buscarClienteOExcepcion(ciCliente);
 
         String referencia = UUID.randomUUID().toString();
 
@@ -62,17 +68,16 @@ public class ClienteServiceImpl implements IClienteService {
     }
 
     @Override
-    public void realizarReclamo(ReclamoDTO dataReclamo) {
-        Cliente cliente = clienteRepository.buscarPorCedula(dataReclamo.getCliente().getCedula());
-        if (cliente == null) throw new RuntimeException("Cliente no existe");
+    public void realizarReclamo(String ciCliente, String comentario) {
+        Cliente cliente = buscarClienteOExcepcion(ciCliente);
 
-        Reclamo reclamo = new Reclamo(dataReclamo.getCliente(), dataReclamo.getComentario());
+        Reclamo reclamo = new Reclamo(cliente, comentario);
         cliente.agregarReclamo(reclamo);
         clienteRepository.guardarReclamo(reclamo);
     }
 
     @Override
     public Cliente obtenerCliente(String ciCliente) {
-        return clienteRepository.buscarPorCedula(ciCliente);
+        return buscarClienteOExcepcion(ciCliente);
     }
 }

@@ -1,4 +1,4 @@
-package moduloPagos.interfase;
+package moduloPagos.interfase.dto;
 
 
 import moduloPagos.dominio.MedioPago;

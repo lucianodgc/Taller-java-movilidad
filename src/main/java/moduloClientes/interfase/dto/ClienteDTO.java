@@ -1,4 +1,4 @@
-package moduloClientes.interfase;
+package moduloClientes.interfase.dto;
 
 import moduloClientes.dominio.TipoCliente;
 import moduloClientes.dominio.TipoProfesional;
@@ -8,10 +8,8 @@ public class ClienteDTO {
     String nombreCompleto;
     String telefono;
     String contraseña;
-
     TipoProfesional tipoProfesional;
     Float descuento;
-
     TipoCliente tipo;
 
     public ClienteDTO(String cedula, String nombreCompleto, String telefono, String contraseña, TipoProfesional tipoProfesional, Float descuento, TipoCliente tipo) {

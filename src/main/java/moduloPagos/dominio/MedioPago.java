@@ -20,4 +20,8 @@ public class MedioPago {
         this.referencia = referencia;
         this.cliente = cliente;
     }
+
+    public String getReferencia() {
+        return referencia;
+    }
 }

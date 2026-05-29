@@ -3,8 +3,7 @@ package moduloCargas.interfase.evento.in;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import moduloCargas.interfase.ICargaService;
-import moduloCargas.interfase.MedioPagoDTO;
+import moduloCargas.interfase.ICargasService;
 import moduloClientes.interfase.evento.out.ClientesNuevoCliente;
 import moduloClientes.interfase.evento.out.ClientesNuevoMedioPago;
 
@@ -12,7 +11,7 @@ import moduloClientes.interfase.evento.out.ClientesNuevoMedioPago;
 public class ObserverModuloCargas {
 
     @Inject
-    ICargaService cargaService;
+    ICargasService cargaService;
 
     public void accept(@Observes ClientesNuevoCliente event) {
         cargaService.altaCliente(event.getCedula());

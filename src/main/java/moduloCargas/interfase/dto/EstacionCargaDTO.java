@@ -1,4 +1,4 @@
-package moduloCargas.interfase;
+package moduloCargas.interfase.dto;
 
 public class EstacionCargaDTO {
     private String descripcion;
@@ -6,6 +6,9 @@ public class EstacionCargaDTO {
     private String departamento;
     private int longitud;
     private int latitud;
+
+    public EstacionCargaDTO() {
+    }
 
     public EstacionCargaDTO(String descripcion, String calle, String departamento, int longitud, int latitud) {
         this.descripcion = descripcion;

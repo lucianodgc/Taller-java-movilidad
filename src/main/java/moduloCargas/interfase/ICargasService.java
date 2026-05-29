@@ -1,14 +1,16 @@
 package moduloCargas.interfase;
 
 import moduloCargas.dominio.*;
-import moduloPagos.interfase.CargaDTO;
+import moduloCargas.interfase.dto.CargadorDTO;
+import moduloCargas.interfase.dto.EstacionCargaDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-public interface ICargaService {
-    void iniciarCarga(String ciCliente, String idCargador, String referenciaMedioPago);
+public interface ICargasService {
+    void iniciarCarga(String idCargador, String ciCliente, String referencia);
 
     Carga verCargaActual(String ciCliente);
 
@@ -18,11 +20,13 @@ public interface ICargaService {
 
     void altaEstacion(EstacionCargaDTO estacionCarga);
 
+    void registrarFallaCargador(String idCargador, LocalDate fechaReparacion);
+
     void altaCargador(CargadorDTO cargadorDTO);
 
     List<EstacionCarga> obtenerEstaciones();
 
     void altaCliente(String ciCliente);
 
-    void altaMedioPago(MedioPagoDTO medioPagoDTO);
+    void altaMedioPago(String ciCliente, String referencia);
 }

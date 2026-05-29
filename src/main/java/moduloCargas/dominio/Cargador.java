@@ -69,4 +69,12 @@ public class Cargador {
     public void agregarCargas(Carga carga) {
         this.cargas.add(carga);
     }
+
+    public EstacionCarga getEstacion() {
+        return estacion;
+    }
+
+    public TipoConector getTipoConector() {
+        return tipoConector;
+    }
 }
