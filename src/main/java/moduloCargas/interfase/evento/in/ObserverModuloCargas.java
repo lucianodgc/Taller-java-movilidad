@@ -18,6 +18,6 @@ public class ObserverModuloCargas {
     }
 
     public void accept(@Observes ClientesNuevoMedioPago event) {
-        cargaService.altaMedioPago(event.getReferencia(), event.getCiCliente());
+        cargaService.altaMedioPago(event.getCiCliente(), event.getReferencia());
     }
 }

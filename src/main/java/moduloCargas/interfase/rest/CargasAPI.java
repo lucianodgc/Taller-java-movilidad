@@ -29,7 +29,7 @@ import java.util.List;
 public class CargasAPI {
 
     @Inject
-    private ICargasService cargaService;
+    ICargasService cargaService;
 
     @POST
     @Path("/iniciar")
