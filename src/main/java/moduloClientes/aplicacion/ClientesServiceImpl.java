@@ -58,8 +58,7 @@ public class ClientesServiceImpl implements IClientesService {
             medio = new CuentaUTE(referencia, cliente, dataMedioPago.getNumeroCuenta());
         }
         cliente.agregarMediosDePago(medio);
-        clienteRepository.guardarMedioPago(medio);
-        evento.publicarNuevoMedioPago(medio.getReferencia(), ciCliente);
+        evento.publicarNuevoMedioPago(medio.getReferencia(), ciCliente, dataMedioPago.getTipo().name());
     }
 
     @Override

@@ -1,27 +1,19 @@
 package moduloPagos.interfase.dto;
 
 
-import moduloPagos.dominio.MedioPago;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class PagoDTO {
-    private Long id;
     private String ciCliente;
     private Float monto;
-    private LocalDate fechaPago;
-    private MedioPago medioPago;
+    private LocalDateTime fechaPago;
+    private String medioPago;
 
-    public PagoDTO(Long id, String ciCliente, Float monto, LocalDate fechaPago, MedioPago medioPago) {
-        this.id = id;
+    public PagoDTO(String ciCliente, Float monto, LocalDateTime fechaPago, String medioPago) {
         this.ciCliente = ciCliente;
         this.monto = monto;
         this.fechaPago = fechaPago;
         this.medioPago = medioPago;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getCliente() {
@@ -32,11 +24,11 @@ public class PagoDTO {
         return monto;
     }
 
-    public LocalDate getFechaPago() {
+    public LocalDateTime getFechaPago() {
         return fechaPago;
     }
 
-    public MedioPago getMedioPago() {
+    public String getMedioPago() {
         return medioPago;
     }
 }

@@ -6,7 +6,6 @@ import moduloClientes.dominio.TipoTarjeta;
 import java.time.LocalDate;
 
 public class AltaMedioPagoRequest {
-    String ciCliente;
     String numeroCuenta;
     String numero;
     LocalDate fechaVencimiento;
@@ -15,14 +14,6 @@ public class AltaMedioPagoRequest {
     TipoMedioPago tipo;
 
     public AltaMedioPagoRequest() {
-    }
-
-    public String getCiCliente() {
-        return ciCliente;
-    }
-
-    public void setCiCliente(String ciCliente) {
-        this.ciCliente = ciCliente;
     }
 
     public String getNumeroCuenta() {

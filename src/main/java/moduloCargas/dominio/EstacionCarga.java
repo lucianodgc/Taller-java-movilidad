@@ -10,12 +10,24 @@ import java.util.List;
 public class EstacionCarga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "descripcion")
     private String descripcion;
+
+    @Column(name = "calle")
     private String calle;
+
+    @Column(name = "departamento")
     private String departamento;
+
+    @Column(name = "longitud")
     private int longitud;
+
+    @Column(name = "latitud")
     private int latitud;
+
     @OneToMany(mappedBy = "estacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cargador> cargadores = new ArrayList<>();
 

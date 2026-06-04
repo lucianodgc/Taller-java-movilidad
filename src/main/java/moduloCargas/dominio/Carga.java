@@ -9,20 +9,40 @@ import java.time.LocalDateTime;
 public class Carga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
     @ManyToOne
+    @JoinColumn(name = "cliente_cedula")
     private Cliente cliente;
+
     @ManyToOne
-    @JoinColumn(name = "idCargador")
+    @JoinColumn(name = "id_cargador")
     private Cargador cargador;
+
+    @Column(name = "referencia_medio_pago")
     private String referenciaMedioPago;
+
+    @Column(name = "fecha_inicio")
     private LocalDateTime fechaInicio;
+
+    @Column(name = "fecha_fin")
     private LocalDateTime fechaFin;
+
+    @Column(name = "importe_total")
     private float importeTotal;
+
+    @Column(name = "recarga_por_demora")
     private float recargaPorDemora;
+
+    @Column(name = "porcentaje_avance")
     private int porcentajeAvance;
+
+    @Column(name = "hora_estimada")
     private LocalDateTime horaEstimada;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
     private EstadoCarga estado;
 
     protected Carga() {
@@ -61,6 +81,10 @@ public class Carga {
 
     public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public String getReferenciaMedioPago() {
+        return referenciaMedioPago;
     }
 
     public void setReferenciaMedioPago(String referenciaMedioPago) {

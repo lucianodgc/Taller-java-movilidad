@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 @DiscriminatorColumn(name = "tipo_pago", discriminatorType = DiscriminatorType.STRING)
 public abstract class MedioPago {
     @Id
+    @Column(name = "referencia")
     private String referencia;
 
     @ManyToOne

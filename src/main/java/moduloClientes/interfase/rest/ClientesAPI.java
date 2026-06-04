@@ -5,13 +5,13 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import moduloClientes.dominio.Cliente;
-import moduloClientes.dominio.ClienteComun;
 import moduloClientes.dominio.ClienteProfesional;
 import moduloClientes.dominio.TipoCliente;
 import moduloClientes.interfase.IClientesService;
 import moduloClientes.interfase.dto.ClienteDTO;
 import moduloClientes.interfase.dto.MedioPagoDTO;
 import moduloClientes.interfase.rest.Request.AltaMedioPagoRequest;
+import moduloClientes.interfase.rest.Request.RealizarReclamoRequest;
 import moduloClientes.interfase.rest.Request.RegistrarClienteRequest;
 import moduloClientes.interfase.rest.Response.ClienteResponse;
 
@@ -24,10 +24,9 @@ import java.util.List;
 public class ClientesAPI {
 
     @Inject
-    IClientesService clientesService;
+    private IClientesService clientesService;
 
     @POST
-    @Path("/registrar")
     public Response registrarCliente(RegistrarClienteRequest request) {
         try {
             ClienteDTO clienteDTO = new ClienteDTO(
@@ -41,25 +40,6 @@ public class ClientesAPI {
             );
             clientesService.registrarCliente(clienteDTO);
             return Response.status(Response.Status.CREATED).entity("Cliente registrado con éxito").build();
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
-        }
-    }
-
-    @POST
-    @Path("/medioPago")
-    public Response altaMedioPago(AltaMedioPagoRequest request) {
-        try {
-            MedioPagoDTO medioPagoDTO = new MedioPagoDTO(
-                    request.getNumeroCuenta(),
-                    request.getNumero(),
-                    request.getFechaVencimiento(),
-                    request.getDigitoVerificacion(),
-                    request.getTipoTarjeta(),
-                    request.getTipo()
-            );
-            clientesService.altaMedioPago(request.getCiCliente(), medioPagoDTO);
-            return Response.status(Response.Status.CREATED).entity("Medio de pago registrado con éxito").build();
         } catch (IllegalArgumentException | IllegalStateException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
@@ -92,13 +72,35 @@ public class ClientesAPI {
     }
 
     @POST
-    @Path("/reclamar/{ciCliente}")
-    public Response realizarReclamo(
+    @Path("/{ciCliente}/medios-pago")
+    public Response altaMedioPago(
             @PathParam("ciCliente") String ciCliente,
-            @QueryParam("comentario") String comentario
+            AltaMedioPagoRequest request
     ) {
         try {
-            clientesService.realizarReclamo(ciCliente, comentario);
+            MedioPagoDTO medioPagoDTO = new MedioPagoDTO(
+                    request.getNumeroCuenta(),
+                    request.getNumero(),
+                    request.getFechaVencimiento(),
+                    request.getDigitoVerificacion(),
+                    request.getTipoTarjeta(),
+                    request.getTipo()
+            );
+            clientesService.altaMedioPago(ciCliente, medioPagoDTO);
+            return Response.status(Response.Status.CREATED).entity("Medio de pago registrado con éxito").build();
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/{ciCliente}/reclamos")
+    public Response realizarReclamo(
+            @PathParam("ciCliente") String ciCliente,
+            RealizarReclamoRequest request
+    ) {
+        try {
+            clientesService.realizarReclamo(ciCliente, request.getComentario());
             return Response.status(Response.Status.CREATED).entity("Reclamo realizado con éxito").build();
         } catch (IllegalArgumentException | IllegalStateException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();

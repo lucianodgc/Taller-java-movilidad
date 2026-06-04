@@ -11,14 +11,18 @@ import java.util.List;
 @DiscriminatorColumn(name = "tipo_cliente", discriminatorType = DiscriminatorType.STRING)
 public abstract class Cliente {
     @Id
+    @Column(name = "cedula")
     private String cedula;
-    @Column(nullable = false)
+    @Column(name = "nombre_completo", nullable = false)
     private String nombreCompleto;
+    @Column(name = "telefono")
     private String telefono;
-    @Column(nullable = false)
+    @Column(name = "contrasena", nullable = false)
     private String contraseña;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MedioPago> mediosDePago = new ArrayList<>();
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reclamo> reclamos;
 

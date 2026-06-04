@@ -1,15 +1,14 @@
 package moduloClientes.dominio;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
 @Entity(name = "ClienteProfesionalClientes")
 @DiscriminatorValue("PROFESIONAL")
 public class ClienteProfesional extends Cliente{
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_profesional")
     private TipoProfesional tipo;
+    @Column(name = "porcentaje_descuento")
     private float porcentajeDescuento;
 
     protected ClienteProfesional() {

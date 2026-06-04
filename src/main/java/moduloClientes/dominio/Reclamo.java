@@ -7,9 +7,12 @@ import jakarta.persistence.*;
 public class Reclamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     Long id;
     @ManyToOne
+    @JoinColumn(name = "cliente_cedula")
     Cliente cliente;
+    @Column(name = "comentario")
     String comentario;
 
     protected Reclamo() {

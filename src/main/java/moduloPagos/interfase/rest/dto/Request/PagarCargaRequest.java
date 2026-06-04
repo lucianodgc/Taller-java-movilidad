@@ -5,21 +5,12 @@ import moduloPagos.dominio.MedioPago;
 import java.time.LocalDate;
 
 public class PagarCargaRequest {
-    private Long id;
     private String ciCliente;
     private Float monto;
     private LocalDate fechaPago;
     private MedioPago medioPago;
 
     public PagarCargaRequest() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCiCliente() {

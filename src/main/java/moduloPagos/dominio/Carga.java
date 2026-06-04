@@ -8,10 +8,17 @@ import java.time.LocalDateTime;
 @Table(name = "Pagos_Carga")
 public class Carga {
     @Id
+    @Column(name = "id")
     private Long id;
+
     @ManyToOne
+    @JoinColumn(name = "cliente_cedula")
     private Cliente cliente;
+
+    @Column(name = "fecha_inicio")
     private LocalDateTime fechaInicio;
+
+    @Column(name = "fecha_fin")
     private LocalDateTime fechaFin;
 
     protected Carga() {

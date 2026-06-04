@@ -1,5 +1,6 @@
 package moduloCargas.aplicacion;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import moduloCargas.dominio.*;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
 @Transactional
 public class CargasServiceImpl implements ICargasService {
 

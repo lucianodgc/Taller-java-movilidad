@@ -37,15 +37,6 @@ public class ClienteRepositoryImpl implements IClienteRepository {
     }
 
     @Override
-    public void guardarMedioPago(MedioPago medioPago) {
-        if (medioPago.getReferencia() == null) {
-            em.persist(medioPago);
-        } else {
-            em.merge(medioPago);
-        }
-    }
-
-    @Override
     public void guardarReclamo(Reclamo reclamo) {
         if (reclamo.getId() == null) {
             em.persist(reclamo);

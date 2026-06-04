@@ -8,7 +8,6 @@ public class AltaCargadorRequest {
     private TipoConector tipoConector;
     private int potenciaMinima;
     private boolean tieneCable;
-    private String idEstacion;
 
     public AltaCargadorRequest() {
     }
@@ -43,13 +42,5 @@ public class AltaCargadorRequest {
 
     public void setTieneCable(boolean tieneCable) {
         this.tieneCable = tieneCable;
-    }
-
-    public String getIdEstacion() {
-        return idEstacion;
-    }
-
-    public void setIdEstacion(String idEstacion) {
-        this.idEstacion = idEstacion;
     }
 }

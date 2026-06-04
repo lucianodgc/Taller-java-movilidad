@@ -8,12 +8,22 @@ import java.time.LocalDateTime;
 @Table(name = "Pagos_Pago")
 public class Pago {
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
+    @JoinColumn(name = "cliente_cedula")
     private Cliente cliente;
+
+    @Column(name = "monto")
     private Float monto;
+
+    @Column(name = "fecha_pago")
     private LocalDateTime fechaPago;
+
     @OneToOne
+    @JoinColumn(name = "medio_pago_referencia")
     private MedioPago medioPago;
 
     protected Pago() {

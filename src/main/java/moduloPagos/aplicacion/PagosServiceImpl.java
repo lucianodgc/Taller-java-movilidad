@@ -3,10 +3,12 @@ package moduloPagos.aplicacion;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import moduloPagos.dominio.Carga;
-import moduloPagos.dominio.Cliente;
-import moduloPagos.dominio.MedioPago;
-import moduloPagos.dominio.Pago;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import moduloPagos.dominio.*;
 import moduloPagos.dominio.repositorio.IPagosRepository;
 import moduloPagos.interfase.dto.CargaDTO;
 import moduloPagos.interfase.IPagosService;
@@ -34,8 +36,45 @@ public class PagosServiceImpl implements IPagosService {
     public void pagarCarga(PagoDTO pagoDTO) {
         Cliente cliente = buscarClienteOExcepcion(pagoDTO.getCliente());
 
-        Pago pago = new Pago(cliente, pagoDTO.getMonto(), LocalDateTime.now(), pagoDTO.getMedioPago());
-        cliente.agregarPago(pago);
+        MedioPago medioPago = null;
+        for (MedioPago mp : cliente.getMediosDePago()) {
+            if (mp.getReferencia().equals(pagoDTO.getMedioPago())) {
+                medioPago = mp;
+                break;
+            }
+        }
+        if (medioPago == null) {
+            throw new RuntimeException("Medio de pago incorrecto");
+        }
+
+        Pago pago = new Pago(cliente, pagoDTO.getMonto(), LocalDateTime.now(), medioPago);
+
+        Client client = ClientBuilder.newClient();
+
+        try {
+            String urlMock;
+
+            if (medioPago.getTipoMedioPago().equals(TipoMedioPago.TARJETA)) {
+                urlMock = "http://localhost:8081/ServicioMedioPagoMock/api/pagos";
+            } else {
+                urlMock = "http://localhost:8082/FacturaUTEMock/api/pagos";
+            }
+
+            Response response = client.target(urlMock)
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.json(pagoDTO));
+
+            if (response.getStatus() == 200 || response.getStatus() == 201) {
+                cliente.agregarPago(pago);
+            } else {
+                String errorMsg = response.readEntity(String.class);
+                throw new IllegalStateException("Pago rechazado por el sistema externo: " + errorMsg);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("No se pudo conectar con el mock de pagos", e);
+        } finally {
+            client.close();
+        }
     }
 
     @Override
@@ -63,9 +102,9 @@ public class PagosServiceImpl implements IPagosService {
     }
 
     @Override
-    public void altaMedioPago(String ciCliente, String referencia) {
+    public void altaMedioPago(String ciCliente, String referencia, TipoMedioPago tipo) {
         Cliente cliente = buscarClienteOExcepcion(ciCliente);
-        MedioPago medioPago = new MedioPago(referencia, cliente);
+        MedioPago medioPago = new MedioPago(referencia, cliente, tipo);
         cliente.agregarMedioPago(medioPago);
     }
 }

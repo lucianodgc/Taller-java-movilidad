@@ -12,21 +12,36 @@ import java.util.List;
 public class Cargador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_cargador")
     private TipoCargador tipoCargador;
+
+    @Column(name = "tiene_cable")
     private Boolean tieneCable;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_conector")
     private TipoConector tipoConector;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
     private EstadoCargador estado;
+
+    @Column(name = "tiempo_estimado_finalizacion")
     private LocalDateTime tiempoEstimadoFinalizacion;
+
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_estimada_reparacion")
     private LocalDate fechaEstimadaReparacion;
+
+    @Column(name = "potencia_minima")
     private int potenciaMinima;
 
     @ManyToOne
-    @JoinColumn(name = "idEstacion")
+    @JoinColumn(name = "id_estacion")
     private EstacionCarga estacion;
 
     @OneToMany(mappedBy = "cargador", cascade = CascadeType.ALL, orphanRemoval = true)

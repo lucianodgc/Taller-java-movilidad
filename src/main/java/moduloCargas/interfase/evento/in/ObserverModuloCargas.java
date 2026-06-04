@@ -11,7 +11,7 @@ import moduloClientes.interfase.evento.out.ClientesNuevoMedioPago;
 public class ObserverModuloCargas {
 
     @Inject
-    ICargasService cargaService;
+    private ICargasService cargaService;
 
     public void accept(@Observes ClientesNuevoCliente event) {
         cargaService.altaCliente(event.getCedula());

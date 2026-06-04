@@ -6,8 +6,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import moduloPagos.dominio.Pago;
 import moduloPagos.interfase.IPagosService;
-import moduloPagos.interfase.dto.PagoDTO;
-import moduloPagos.interfase.rest.dto.Request.PagarCargaRequest;
 import moduloPagos.interfase.rest.dto.Response.PagoResponse;
 
 import java.time.LocalDateTime;
@@ -21,14 +19,13 @@ import java.util.List;
 public class PagosAPI {
 
     @Inject
-    IPagosService pagosService;
+    private IPagosService pagosService;
 
+    /*ESTO NO VA PROBABLEMENTE
     @POST
-    @Path("/pagar")
     public Response pagarCarga(PagarCargaRequest request) {
         try {
             PagoDTO pagoDTO = new PagoDTO(
-                    request.getId(),
                     request.getCiCliente(),
                     request.getMonto(),
                     request.getFechaPago(),
@@ -40,7 +37,7 @@ public class PagosAPI {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
-
+    */
     @GET
     @Path("/consultar/{ciCliente}")
     public Response consularPagos(

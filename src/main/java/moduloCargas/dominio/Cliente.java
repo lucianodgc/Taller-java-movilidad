@@ -9,9 +9,12 @@ import java.util.List;
 @Table(name = "Cargas_Cliente")
 public class Cliente {
     @Id
+    @Column(name = "cedula")
     private String cedula;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedioPago> mediosDePago = new ArrayList<>();
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Carga> cargas = new ArrayList<>();
 

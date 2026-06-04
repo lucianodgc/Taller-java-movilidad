@@ -1,6 +1,7 @@
 package moduloPagos.interfase;
 
 import moduloPagos.dominio.Pago;
+import moduloPagos.dominio.TipoMedioPago;
 import moduloPagos.interfase.dto.CargaDTO;
 import moduloPagos.interfase.dto.PagoDTO;
 
@@ -16,5 +17,5 @@ public interface IPagosService {
 
     void altaCarga(CargaDTO cargaDTO);
 
-    void altaMedioPago(String ciCliente, String referencia);
+    void altaMedioPago(String ciCliente, String referencia, TipoMedioPago tipoMedioPago);
 }

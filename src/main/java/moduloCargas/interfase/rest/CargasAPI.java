@@ -23,16 +23,16 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/cargas")
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CargasAPI {
 
     @Inject
-    ICargasService cargaService;
+    private ICargasService cargaService;
 
     @POST
-    @Path("/iniciar")
+    @Path("/cargas")
     public Response iniciarCarga(IniciarCargaRequest request) {
         try {
             cargaService.iniciarCarga(request.getCiCliente(), request.getIdCargador(), request.getReferenciaMedioPago());
@@ -43,9 +43,12 @@ public class CargasAPI {
     }
 
     @GET
-    @Path("/actual/{ciCliente}")
-    public Response verCargaActual(@PathParam("ciCliente") String ciCliente) {
+    @Path("/cargas/actual")
+    public Response verCargaActual(@QueryParam("ciCliente") String ciCliente) {
         try {
+            if (ciCliente == null || ciCliente.isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("El parámetro ciCliente es obligatorio").build();
+            }
             Carga carga = cargaService.verCargaActual(ciCliente);
             CargaResponse dto = new CargaResponse();
             dto.setIdCarga(carga.getId());
@@ -61,13 +64,16 @@ public class CargasAPI {
     }
 
     @GET
-    @Path("/historico/{ciCliente}")
+    @Path("/cargas")
     public Response verHistorico(
-            @PathParam("ciCliente") String ciCliente,
+            @QueryParam("ciCliente") String ciCliente,
             @QueryParam("fechaInicio") String fechaInicioStr,
             @QueryParam("fechaFin") String fechaFinStr
     ) {
         try {
+            if (ciCliente == null || ciCliente.isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("El parámetro ciCliente es obligatorio").build();
+            }
             LocalDateTime fechaInicio = null;
             LocalDateTime fechaFin = null;
 
@@ -102,10 +108,10 @@ public class CargasAPI {
     }
 
     @PUT
-    @Path("/finalizar")
-    public Response finalizarCarga(FinalizarCargaRequest request) {
+    @Path("/cargadores/{idCargador}/sesion-activa")
+    public Response finalizarCarga(@PathParam("idCargador") String idCargador, FinalizarCargaRequest request) {
         try {
-            cargaService.finalizarCarga(request.getIdCargador(), request.getCarga(), request.getRecargo());
+            cargaService.finalizarCarga(idCargador, request.getCarga(), request.getRecargo());
             return Response.ok("Carga finalizada con éxito").build();
         } catch (IllegalArgumentException | IllegalStateException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
@@ -113,25 +119,7 @@ public class CargasAPI {
     }
 
     @POST
-    @Path("/cargador")
-    public Response altaCargador(AltaCargadorRequest request) {
-        try {
-            CargadorDTO cargadorDTO = new CargadorDTO(
-                    request.getTipoCargador(),
-                    request.getTipoConector(),
-                    request.getPotenciaMinima(),
-                    request.isTieneCable(),
-                    request.getIdEstacion()
-            );
-            cargaService.altaCargador(cargadorDTO);
-            return Response.status(Response.Status.CREATED).entity("Cargador creado con éxito").build();
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
-        }
-    }
-
-    @POST
-    @Path("/estacion")
+    @Path("/estaciones")
     public Response altaEstacion(AltaEstacionRequest request) {
         try {
             EstacionCargaDTO estacionCargaDTO = new EstacionCargaDTO(
@@ -172,6 +160,27 @@ public class CargasAPI {
                 estacionesResponse.add(estacionResponse);
             }
             return Response.ok(estacionesResponse).build();
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/estaciones/{idEstacion}/cargadores")
+    public Response altaCargador(
+            @PathParam("idEstacion") String idEstacion,
+            AltaCargadorRequest request
+    ) {
+        try {
+            CargadorDTO cargadorDTO = new CargadorDTO(
+                    request.getTipoCargador(),
+                    request.getTipoConector(),
+                    request.getPotenciaMinima(),
+                    request.isTieneCable(),
+                    idEstacion
+            );
+            cargaService.altaCargador(cargadorDTO);
+            return Response.status(Response.Status.CREATED).entity("Cargador creado con éxito").build();
         } catch (IllegalArgumentException | IllegalStateException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }

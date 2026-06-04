@@ -6,10 +6,11 @@ import jakarta.persistence.*;
 @Table(name = "Cargas_MedioPago")
 public class MedioPago {
     @Id
+    @Column(name = "referencia")
     private String referencia;
 
     @ManyToOne
-    @JoinColumn(name = "ciCliente")
+    @JoinColumn(name = "cliente_cedula")
     private Cliente cliente;
 
     public MedioPago() {}
