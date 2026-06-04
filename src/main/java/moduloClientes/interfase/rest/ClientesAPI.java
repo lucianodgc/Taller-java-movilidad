@@ -14,7 +14,6 @@ import moduloClientes.interfase.rest.Request.AltaMedioPagoRequest;
 import moduloClientes.interfase.rest.Request.RealizarReclamoRequest;
 import moduloClientes.interfase.rest.Request.RegistrarClienteRequest;
 import moduloClientes.interfase.rest.Response.ClienteResponse;
-
 import java.util.ArrayList;
 import java.util.List;
 
