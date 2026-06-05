@@ -12,6 +12,9 @@ public class Cliente {
     @Column(name = "cedula")
     private String cedula;
 
+    @Column(name = "descuento")
+    private float descuento;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedioPago> mediosDePago = new ArrayList<>();
 
@@ -21,8 +24,9 @@ public class Cliente {
     protected Cliente() {
     }
 
-    public Cliente(String cedula) {
+    public Cliente(String cedula, float descuento) {
         this.cedula = cedula;
+        this.descuento = descuento;
     }
 
     public String getCedula() {
@@ -39,5 +43,9 @@ public class Cliente {
 
     public void agregarMedioPago(MedioPago medioPago) {
         mediosDePago.add(medioPago);
+    }
+
+    public float getDescuento() {
+        return descuento;
     }
 }

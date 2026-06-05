@@ -3,6 +3,7 @@ package moduloClientes.interfase.evento.out;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
+import moduloClientes.dominio.TipoCliente;
 import moduloClientes.dominio.TipoMedioPago;
 
 @ApplicationScoped
@@ -12,8 +13,8 @@ public class PublicadorEvento {
     @Inject
     private Event<ClientesNuevoMedioPago> nuevoMedioPagoEvent;
 
-    public void publicarNuevoCliente(String ciCliente) {
-        ClientesNuevoCliente evento = new ClientesNuevoCliente(ciCliente);
+    public void publicarNuevoCliente(String ciCliente, float descuento) {
+        ClientesNuevoCliente evento = new ClientesNuevoCliente(ciCliente, descuento);
         nuevoClienteEvent.fire(evento);
     }
 

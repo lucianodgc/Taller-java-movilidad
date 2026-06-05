@@ -4,8 +4,8 @@ public class AltaEstacionRequest {
     private String descripcion;
     private String calle;
     private String departamento;
-    private int longitud;
-    private int latitud;
+    private Double longitud;
+    private Double latitud;
 
     public AltaEstacionRequest() {
     }
@@ -34,19 +34,19 @@ public class AltaEstacionRequest {
         this.departamento = departamento;
     }
 
-    public int getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(int longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 
-    public int getLatitud() {
+    public Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(int latitud) {
+    public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
 }

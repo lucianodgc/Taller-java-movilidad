@@ -4,13 +4,13 @@ public class EstacionCargaDTO {
     private String descripcion;
     private String calle;
     private String departamento;
-    private int longitud;
-    private int latitud;
+    private Double longitud;
+    private Double latitud;
 
     public EstacionCargaDTO() {
     }
 
-    public EstacionCargaDTO(String descripcion, String calle, String departamento, int longitud, int latitud) {
+    public EstacionCargaDTO(String descripcion, String calle, String departamento, Double longitud, Double latitud) {
         this.descripcion = descripcion;
         this.calle = calle;
         this.departamento = departamento;
@@ -30,11 +30,11 @@ public class EstacionCargaDTO {
         return departamento;
     }
 
-    public int getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public int getLatitud() {
+    public Double getLatitud() {
         return latitud;
     }
 }

@@ -59,4 +59,8 @@ public abstract class Cliente {
     public void agregarReclamo(Reclamo reclamo) {
         this.reclamos.add(reclamo);
     }
+
+    public String getContraseña() {
+        return contraseña;
+    }
 }

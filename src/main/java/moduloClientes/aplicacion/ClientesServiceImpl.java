@@ -9,8 +9,8 @@ import moduloClientes.interfase.dto.ClienteDTO;
 import moduloClientes.interfase.IClientesService;
 import moduloClientes.interfase.dto.MedioPagoDTO;
 import moduloClientes.interfase.evento.out.PublicadorEvento;
+import org.mindrot.jbcrypt.BCrypt;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,18 +35,19 @@ public class ClientesServiceImpl implements IClientesService {
     @Override
     public void registrarCliente(ClienteDTO dataCliente) {
         Cliente cliente;
+        String claveHasheada = BCrypt.hashpw(dataCliente.getContraseña(), BCrypt.gensalt());
 
         if (dataCliente.getTipo().equals(TipoCliente.COMUN)) {
-            cliente = new ClienteComun(dataCliente.getCedula(), dataCliente.getNombreCompleto(), dataCliente.getTelefono(), dataCliente.getContraseña());
+            cliente = new ClienteComun(dataCliente.getCedula(), dataCliente.getNombreCompleto(), dataCliente.getTelefono(), claveHasheada);
 
         } else {
-            cliente = new ClienteProfesional(dataCliente.getCedula(), dataCliente.getNombreCompleto(), dataCliente.getTelefono(), dataCliente.getContraseña(), dataCliente.getTipoProfesional(), dataCliente.getDescuento());
+            cliente = new ClienteProfesional(dataCliente.getCedula(), dataCliente.getNombreCompleto(), dataCliente.getTelefono(), claveHasheada, dataCliente.getTipoProfesional(), dataCliente.getDescuento());
         }
         if (clienteRepository.buscarPorCedula(dataCliente.getCedula()) != null) {
             throw new IllegalArgumentException("El cliente ya existe.");
         }
         clienteRepository.guardarCliente(cliente);
-        evento.publicarNuevoCliente(dataCliente.getCedula());
+        evento.publicarNuevoCliente(dataCliente.getCedula(), dataCliente.getDescuento());
     }
 
     @Override

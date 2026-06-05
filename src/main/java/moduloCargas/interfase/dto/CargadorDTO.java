@@ -13,7 +13,7 @@ public class CargadorDTO {
     private boolean tieneCable;
     private String idEstacion;
 
-    public CargadorDTO() {
+    protected CargadorDTO() {
     }
 
     public CargadorDTO(TipoCargador tipoCargador, TipoConector tipoConector, int potenciaMinima, boolean tieneCable, String idEstacion) {

@@ -9,12 +9,16 @@ import moduloCargas.interfase.dto.CargadorDTO;
 import moduloCargas.interfase.dto.EstacionCargaDTO;
 import moduloCargas.interfase.ICargasService;
 import moduloCargas.interfase.evento.out.PublicadorEvento;
+import moduloClientes.dominio.ClienteProfesional;
+import moduloClientes.dominio.Tarjeta;
+import moduloClientes.dominio.TipoMedioPago;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 @Transactional
@@ -116,10 +120,19 @@ public class CargasServiceImpl implements ICargasService {
         float PRECIO_POR_MINUTO_DEMORA = 8.0f;
         float costoDemora = minutosDemora * PRECIO_POR_MINUTO_DEMORA;
 
+        float subtotal = importeEnergia + costoDemora;
+        float importeTotal = subtotal;
+        float porcentajeDescuento = cargaActiva.getCliente().getDescuento();
+
+        if (porcentajeDescuento > 0) {
+            float montoDescontado = subtotal * (porcentajeDescuento / 100f);
+            importeTotal = subtotal - montoDescontado;
+        }
+
         cargaActiva.setFechaFin(LocalDateTime.now());
         cargaActiva.setEstado(EstadoCarga.FINALIZADA);
         cargaActiva.setRecargaPorDemora(costoDemora);
-        cargaActiva.setImporteTotal(importeEnergia + costoDemora);
+        cargaActiva.setImporteTotal(importeTotal);
         cargaActiva.setPorcentajeAvance(100);
 
         cargador.setEstado(EstadoCargador.DISPONIBLE);
@@ -132,13 +145,27 @@ public class CargasServiceImpl implements ICargasService {
 
     @Override
     public void altaEstacion(EstacionCargaDTO estacionCarga) {
+        if (estacionCarga == null) {
+            throw new IllegalArgumentException("Los datos de la estación no pueden ser nulos.");
+        }
+
+        List<EstacionCarga> estaciones = cargaRepository.buscarEstaciones();
+        if (estaciones.stream().anyMatch(ec ->
+                ec.getDescripcion().equals(estacionCarga.getDescripcion()) &&
+                ec.getCalle().equals(estacionCarga.getCalle()) &&
+                ec.getDepartamento().equals(estacionCarga.getDepartamento()) &&
+                ec.getLongitud().equals(estacionCarga.getLongitud()) &&
+                ec.getLatitud().equals(estacionCarga.getLatitud())
+        ))
+            throw new IllegalArgumentException("Esta estación de carga ya existe.");
 
         EstacionCarga nuevaEstacion = new EstacionCarga(
                 estacionCarga.getDescripcion(),
                 estacionCarga.getCalle(),
                 estacionCarga.getDepartamento(),
                 estacionCarga.getLongitud(),
-                estacionCarga.getLatitud());
+                estacionCarga.getLatitud()
+        );
 
         cargaRepository.guardarEstacion(nuevaEstacion);
     }
@@ -150,6 +177,14 @@ public class CargasServiceImpl implements ICargasService {
         }
 
         EstacionCarga estacion = buscarEstacionOExcepcion(cargadorDTO.getIdEstacion());
+
+        if (estacion.getCargadores().stream().anyMatch(c ->
+                c.getTieneCable() == cargadorDTO.isTieneCable() &&
+                Objects.equals(c.getTipoConector(), cargadorDTO.getTipoConector()) &&
+                Objects.equals(c.getTipoCargador(), cargadorDTO.getTipoCargador()) &&
+                c.getPotenciaMinima() == cargadorDTO.getPotenciaMinima()
+        ))
+        throw new IllegalArgumentException("Este cargador ya existe.");
 
         Cargador nuevoCargador = new Cargador(
                 cargadorDTO.getTipoCargador(),
@@ -185,8 +220,8 @@ public class CargasServiceImpl implements ICargasService {
     }
 
     @Override
-    public void altaCliente(String ciCliente) {
-        Cliente cliente = new Cliente(ciCliente);
+    public void altaCliente(String ciCliente, float descuento) {
+        Cliente cliente = new Cliente(ciCliente, descuento);
         cargaRepository.altaCliente(cliente);
     }
 

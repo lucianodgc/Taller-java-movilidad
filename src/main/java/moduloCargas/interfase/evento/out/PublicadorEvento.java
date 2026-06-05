@@ -11,7 +11,8 @@ public class PublicadorEvento {
     private Event<CargasNuevaCarga> nuevaCargaEvent;
 
     public void publicarNuevaCarga(Carga carga) {
-        CargasNuevaCarga evento = new CargasNuevaCarga(carga.getId(),
+        CargasNuevaCarga evento = new CargasNuevaCarga(
+                carga.getId(),
                 carga.getCliente().getCedula(),
                 carga.getImporteTotal(),
                 carga.getReferenciaMedioPago(),

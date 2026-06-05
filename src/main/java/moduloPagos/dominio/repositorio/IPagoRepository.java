@@ -7,7 +7,7 @@ import moduloPagos.dominio.Pago;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface IPagosRepository {
+public interface IPagoRepository {
 
     List<Pago> obtenerPagosCliente(String ciCliente);
 

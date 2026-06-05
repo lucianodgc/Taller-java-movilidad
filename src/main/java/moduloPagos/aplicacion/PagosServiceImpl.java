@@ -9,7 +9,7 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import moduloPagos.dominio.*;
-import moduloPagos.dominio.repositorio.IPagosRepository;
+import moduloPagos.dominio.repositorio.IPagoRepository;
 import moduloPagos.interfase.dto.CargaDTO;
 import moduloPagos.interfase.IPagosService;
 import moduloPagos.interfase.dto.PagoDTO;
@@ -22,7 +22,7 @@ import java.util.List;
 public class PagosServiceImpl implements IPagosService {
 
     @Inject
-    IPagosRepository pagosRepository;
+    IPagoRepository pagosRepository;
 
     private Cliente buscarClienteOExcepcion(String ciCliente) {
         Cliente cliente = pagosRepository.buscarCliente(ciCliente);

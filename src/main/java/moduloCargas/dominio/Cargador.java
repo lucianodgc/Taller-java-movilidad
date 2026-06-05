@@ -92,4 +92,16 @@ public class Cargador {
     public TipoConector getTipoConector() {
         return tipoConector;
     }
+
+    public Boolean getTieneCable() {
+        return tieneCable;
+    }
+
+    public TipoCargador getTipoCargador() {
+        return tipoCargador;
+    }
+
+    public int getPotenciaMinima() {
+        return potenciaMinima;
+    }
 }

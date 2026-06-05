@@ -26,7 +26,7 @@ public interface ICargasService {
 
     List<EstacionCarga> obtenerEstaciones();
 
-    void altaCliente(String ciCliente);
+    void altaCliente(String ciCliente, float descuento);
 
     void altaMedioPago(String ciCliente, String referencia);
 }

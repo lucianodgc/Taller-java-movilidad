@@ -7,13 +7,13 @@ import jakarta.persistence.PersistenceContext;
 import moduloPagos.dominio.Carga;
 import moduloPagos.dominio.Cliente;
 import moduloPagos.dominio.Pago;
-import moduloPagos.dominio.repositorio.IPagosRepository;
+import moduloPagos.dominio.repositorio.IPagoRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
-public class PagosRepositoryImpl implements IPagosRepository {
+public class PagoRepositoryImpl implements IPagoRepository {
 
     @PersistenceContext
     EntityManager em;

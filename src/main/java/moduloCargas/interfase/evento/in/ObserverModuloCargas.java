@@ -14,7 +14,7 @@ public class ObserverModuloCargas {
     private ICargasService cargaService;
 
     public void accept(@Observes ClientesNuevoCliente event) {
-        cargaService.altaCliente(event.getCedula());
+        cargaService.altaCliente(event.getCedula(), event.getDescuento());
     }
 
     public void accept(@Observes ClientesNuevoMedioPago event) {

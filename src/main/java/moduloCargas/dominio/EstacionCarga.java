@@ -23,10 +23,10 @@ public class EstacionCarga {
     private String departamento;
 
     @Column(name = "longitud")
-    private int longitud;
+    private Double longitud;
 
     @Column(name = "latitud")
-    private int latitud;
+    private Double latitud;
 
     @OneToMany(mappedBy = "estacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cargador> cargadores = new ArrayList<>();
@@ -34,7 +34,7 @@ public class EstacionCarga {
     protected EstacionCarga() {
     }
 
-    public EstacionCarga(String descripcion, String calle, String departamento, int longitud, int latitud) {
+    public EstacionCarga(String descripcion, String calle, String departamento, Double longitud, Double latitud) {
         this.descripcion = descripcion;
         this.calle = calle;
         this.departamento = departamento;
@@ -64,5 +64,13 @@ public class EstacionCarga {
 
     public List<Cargador> getCargadores() {
         return cargadores;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public Double getLatitud() {
+        return latitud;
     }
 }
