@@ -42,6 +42,9 @@ public class ClientesServiceImpl implements IClientesService {
         } else {
             cliente = new ClienteProfesional(dataCliente.getCedula(), dataCliente.getNombreCompleto(), dataCliente.getTelefono(), dataCliente.getContraseña(), dataCliente.getTipoProfesional(), dataCliente.getDescuento());
         }
+        if (clienteRepository.buscarPorCedula(dataCliente.getCedula()) != null) {
+            throw new IllegalArgumentException("El cliente ya existe.");
+        }
         clienteRepository.guardarCliente(cliente);
         evento.publicarNuevoCliente(dataCliente.getCedula());
     }
@@ -54,10 +57,26 @@ public class ClientesServiceImpl implements IClientesService {
 
         MedioPago medio;
         if (dataMedioPago.getTipo().equals(TipoMedioPago.TARJETA)) {
+            if (cliente.getMediosDePago().stream()
+                    .filter(mp -> mp instanceof Tarjeta)
+                    .map(mp -> (Tarjeta) mp)
+                    .anyMatch(t -> t.getNumero().equals(dataMedioPago.getNumero()))
+            ) {
+                throw new IllegalArgumentException("Este medio de pago ya existe.");
+            }
+
             medio = new Tarjeta(referencia , cliente, dataMedioPago.getNumero(), dataMedioPago.getFechaVencimiento(), dataMedioPago.getDigitoVerificacion(), dataMedioPago.getTipoTarjeta());
         } else {
+            if (cliente.getMediosDePago().stream()
+                    .filter(mp -> mp instanceof CuentaUTE)
+                    .map(mp -> (CuentaUTE) mp)
+                    .anyMatch(t -> t.getNumeroCuenta().equals(dataMedioPago.getNumeroCuenta()))
+            ) {
+                throw new IllegalArgumentException("Este medio de pago ya existe.");
+            }
             medio = new CuentaUTE(referencia, cliente, dataMedioPago.getNumeroCuenta());
         }
+
         cliente.agregarMediosDePago(medio);
         evento.publicarNuevoMedioPago(medio.getReferencia(), ciCliente, dataMedioPago.getTipo().name());
     }
