@@ -124,7 +124,7 @@ public class ClientesAPI {
                     );
                 } else {
                     medioPagoResponse.setDescripcion(
-                            "Cuenta UTE " +
+                            "cuenta UTE " +
                                     ((CuentaUTE) medioPago).getNumeroCuenta());
                 }
                 mediosPagoResponse.add(medioPagoResponse);

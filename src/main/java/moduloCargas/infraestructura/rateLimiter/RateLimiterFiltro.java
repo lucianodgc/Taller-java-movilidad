@@ -19,7 +19,7 @@ public class RateLimiterFiltro implements ContainerRequestFilter {
         String path = requestContext.getUriInfo().getPath();
         String ciCliente = requestContext.getUriInfo().getQueryParameters().getFirst("ciCliente");
 
-        if (!path.equals("cargas")) {
+        if (!path.contains("cargas")) {
             return;
         }
 

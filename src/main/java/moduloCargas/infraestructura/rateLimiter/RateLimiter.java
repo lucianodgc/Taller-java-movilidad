@@ -16,8 +16,8 @@ public class RateLimiter {
 	private Bucket crearBucket() {
 		Bandwidth limit = 
 			Bandwidth.builder()
-					.capacity(10)
-					.refillGreedy(5, Duration.ofSeconds(1))
+					.capacity(3)
+					.refillGreedy(1, Duration.ofSeconds(10))
 					.build();
 
 		return Bucket.builder()
