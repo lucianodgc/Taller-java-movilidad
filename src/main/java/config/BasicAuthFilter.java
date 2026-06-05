@@ -1,19 +1,24 @@
 package config;
 
 import java.util.Base64;
+
+import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
+import moduloClientes.dominio.repositorio.IClienteRepository;
 
 //@Provider
 public class BasicAuthFilter implements ContainerRequestFilter {
 
+    @Inject
+    private IClienteRepository clienteRepository;
+
     @Override
     public void filter(ContainerRequestContext ctx) {
 
-        String auth =
-            ctx.getHeaderString("Authorization");
+        String auth = ctx.getHeaderString("Authorization");
 
         if (auth == null || !auth.startsWith("Basic ")) {
             ctx.abortWith(Response.status(401).build());

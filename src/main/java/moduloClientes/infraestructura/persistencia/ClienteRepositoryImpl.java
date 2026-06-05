@@ -4,7 +4,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import moduloClientes.dominio.Cliente;
-import moduloClientes.dominio.MedioPago;
 import moduloClientes.dominio.Reclamo;
 import moduloClientes.dominio.repositorio.IClienteRepository;
 
