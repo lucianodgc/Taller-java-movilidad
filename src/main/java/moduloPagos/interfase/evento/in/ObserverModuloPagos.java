@@ -26,7 +26,7 @@ public class ObserverModuloPagos {
     public void accept(@Observes CargasNuevaCarga event) {
         CargaDTO cargaDTO = new CargaDTO(event.getId(), event.getCiCliente(), event.getFechaInicio(), event.getFechaFin());
         pagosService.altaCarga(cargaDTO);
-        PagoDTO pagoDTO = new PagoDTO(event.getCiCliente(), event.getImporteTotal(), LocalDateTime.now(), event.getReferenciaMedioPago());
+        PagoDTO pagoDTO = new PagoDTO(event.getCiCliente(), event.getImporteTotal(), LocalDateTime.now(), event.getReferenciaMedioPago(), event.getId());
         pagosService.pagarCarga(pagoDTO);
     }
 

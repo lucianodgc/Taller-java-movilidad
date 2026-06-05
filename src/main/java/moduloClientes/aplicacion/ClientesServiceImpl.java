@@ -10,6 +10,7 @@ import moduloClientes.interfase.IClientesService;
 import moduloClientes.interfase.dto.MedioPagoDTO;
 import moduloClientes.interfase.evento.out.PublicadorEvento;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,7 +77,8 @@ public class ClientesServiceImpl implements IClientesService {
     }
 
     @Override
-    public Cliente obtenerCliente(String ciCliente) {
-        return buscarClienteOExcepcion(ciCliente);
+    public List<MedioPago> obtenerMediosPagoCliente(String ciCliente) {
+        Cliente cliente = clienteRepository.buscarClienteConMediosPago(ciCliente);
+        return cliente.getMediosDePago();
     }
 }

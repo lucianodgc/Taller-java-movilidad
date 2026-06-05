@@ -44,4 +44,13 @@ public class ClienteRepositoryImpl implements IClienteRepository {
             em.merge(reclamo);
         }
     }
+
+    @Override
+    public Cliente buscarClienteConMediosPago(String ci) {
+        return em.createQuery(
+                        "SELECT c FROM ClienteClientes c LEFT JOIN FETCH c.mediosDePago WHERE c.cedula = :ci",
+                        Cliente.class)
+                .setParameter("ci", ci)
+                .getSingleResult();
+    }
 }

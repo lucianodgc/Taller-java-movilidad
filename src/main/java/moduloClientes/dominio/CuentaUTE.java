@@ -15,4 +15,8 @@ public class CuentaUTE extends MedioPago {
         super(referencia, cliente);
         this.numeroCuenta = numeroCuenta;
     }
+
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
 }

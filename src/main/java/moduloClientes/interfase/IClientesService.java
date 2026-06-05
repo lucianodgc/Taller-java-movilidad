@@ -1,6 +1,7 @@
 package moduloClientes.interfase;
 
 import moduloClientes.dominio.Cliente;
+import moduloClientes.dominio.MedioPago;
 import moduloClientes.interfase.dto.ClienteDTO;
 import moduloClientes.interfase.dto.MedioPagoDTO;
 
@@ -13,7 +14,7 @@ public interface IClientesService {
 
     List<Cliente> obtenerClientes();
 
-    Cliente obtenerCliente(String ciCliente);
-
     void realizarReclamo(String ciCliente, String comentario);
+
+    List<MedioPago> obtenerMediosPagoCliente(String ciCliente);
 }

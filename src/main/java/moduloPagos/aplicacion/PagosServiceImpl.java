@@ -47,7 +47,8 @@ public class PagosServiceImpl implements IPagosService {
             throw new RuntimeException("Medio de pago incorrecto");
         }
 
-        Pago pago = new Pago(cliente, pagoDTO.getMonto(), LocalDateTime.now(), medioPago);
+        Carga carga = pagosRepository.buscarCarga(pagoDTO.getIdCarga());
+        Pago pago = new Pago(cliente, pagoDTO.getMonto(), LocalDateTime.now(), medioPago, carga);
 
         Client client = ClientBuilder.newClient();
 
@@ -70,6 +71,8 @@ public class PagosServiceImpl implements IPagosService {
                 String errorMsg = response.readEntity(String.class);
                 throw new IllegalStateException("Pago rechazado por el sistema externo: " + errorMsg);
             }
+        } catch (IllegalStateException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException("No se pudo conectar con el mock de pagos", e);
         } finally {
@@ -99,6 +102,7 @@ public class PagosServiceImpl implements IPagosService {
         Cliente cliente = buscarClienteOExcepcion(cargaDTO.getCiCliente());
         Carga carga = new Carga(cargaDTO.getId(), cliente, cargaDTO.getFechaInicio(), cargaDTO.getFechaFin());
         cliente.agregarCarga(carga);
+        pagosRepository.guardarCliente(cliente);
     }
 
     @Override
@@ -107,4 +111,5 @@ public class PagosServiceImpl implements IPagosService {
         MedioPago medioPago = new MedioPago(referencia, cliente, tipo);
         cliente.agregarMedioPago(medioPago);
     }
+
 }

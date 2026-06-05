@@ -6,7 +6,7 @@ import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 
-@Provider
+//@Provider
 public class BasicAuthFilter implements ContainerRequestFilter {
 
     @Override

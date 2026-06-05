@@ -4,9 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import moduloClientes.dominio.Cliente;
-import moduloClientes.dominio.ClienteProfesional;
-import moduloClientes.dominio.TipoCliente;
+import moduloClientes.dominio.*;
 import moduloClientes.interfase.IClientesService;
 import moduloClientes.interfase.dto.ClienteDTO;
 import moduloClientes.interfase.dto.MedioPagoDTO;
@@ -14,6 +12,8 @@ import moduloClientes.interfase.rest.Request.AltaMedioPagoRequest;
 import moduloClientes.interfase.rest.Request.RealizarReclamoRequest;
 import moduloClientes.interfase.rest.Request.RegistrarClienteRequest;
 import moduloClientes.interfase.rest.Response.ClienteResponse;
+import moduloClientes.interfase.rest.Response.MedioPagoResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +101,35 @@ public class ClientesAPI {
         try {
             clientesService.realizarReclamo(ciCliente, request.getComentario());
             return Response.status(Response.Status.CREATED).entity("Reclamo realizado con éxito").build();
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Path("/{ciCliente}/medios-pago")
+    public Response obtenerMediosPago(@PathParam("ciCliente") String ciCliente) {
+        try {
+            List<MedioPago> mediosPago = clientesService.obtenerMediosPagoCliente(ciCliente);
+            List<MedioPagoResponse> mediosPagoResponse = new ArrayList<>();
+            for (MedioPago medioPago : mediosPago) {
+                MedioPagoResponse medioPagoResponse = new MedioPagoResponse();
+                medioPagoResponse.setReferencia(medioPago.getReferencia());
+                if (medioPago instanceof Tarjeta) {
+                    String numero = ((Tarjeta) medioPago).getNumero();
+                    String ultimos4 = (numero.substring(numero.length() - 4));
+                    medioPagoResponse.setDescripcion(
+                            ((Tarjeta) medioPago).getTipoTarjeta().name().toLowerCase() +
+                                    " termina en " + ultimos4
+                    );
+                } else {
+                    medioPagoResponse.setDescripcion(
+                            "Cuenta UTE " +
+                                    ((CuentaUTE) medioPago).getNumeroCuenta());
+                }
+                mediosPagoResponse.add(medioPagoResponse);
+            }
+            return Response.ok(mediosPagoResponse).build();
         } catch (IllegalArgumentException | IllegalStateException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }

@@ -34,7 +34,7 @@ public class CargasAPI {
     @Path("/cargas")
     public Response iniciarCarga(IniciarCargaRequest request) {
         try {
-            cargaService.iniciarCarga(request.getCiCliente(), request.getIdCargador(), request.getReferenciaMedioPago());
+            cargaService.iniciarCarga(request.getIdCargador(), request.getCiCliente(), request.getReferenciaMedioPago());
             return Response.status(Response.Status.CREATED).entity("Carga iniciada con éxito").build();
         } catch (IllegalArgumentException | IllegalStateException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();

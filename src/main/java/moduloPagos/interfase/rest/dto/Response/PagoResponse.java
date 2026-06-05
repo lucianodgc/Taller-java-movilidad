@@ -6,7 +6,8 @@ public class PagoResponse {
     private Long id;
     private Float monto;
     private LocalDateTime fechaPago;
-    private String tipoMedioPago;
+    private String referenciaMedioPago;
+    private Long idCarga;
 
     public Long getId() {
         return id;
@@ -32,11 +33,19 @@ public class PagoResponse {
         this.fechaPago = fechaPago;
     }
 
-    public String getTipoMedioPago() {
-        return tipoMedioPago;
+    public String getReferenciaMedioPago() {
+        return referenciaMedioPago;
     }
 
-    public void setTipoMedioPago(String tipoMedioPago) {
-        this.tipoMedioPago = tipoMedioPago;
+    public void setReferenciaMedioPago(String referenciaMedioPago) {
+        this.referenciaMedioPago = referenciaMedioPago;
+    }
+
+    public Long getIdCarga() {
+        return idCarga;
+    }
+
+    public void setIdCarga(Long idCarga) {
+        this.idCarga = idCarga;
     }
 }

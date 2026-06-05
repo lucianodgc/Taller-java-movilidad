@@ -116,7 +116,6 @@ public class CargasServiceImpl implements ICargasService {
         float PRECIO_POR_MINUTO_DEMORA = 8.0f;
         float costoDemora = minutosDemora * PRECIO_POR_MINUTO_DEMORA;
 
-
         cargaActiva.setFechaFin(LocalDateTime.now());
         cargaActiva.setEstado(EstadoCarga.FINALIZADA);
         cargaActiva.setRecargaPorDemora(costoDemora);

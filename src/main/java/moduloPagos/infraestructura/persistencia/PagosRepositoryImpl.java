@@ -55,4 +55,18 @@ public class PagosRepositoryImpl implements IPagosRepository {
             em.merge(cliente);
         }
     }
+
+    @Override
+    public Carga buscarCarga(Long idCarga) {
+        return em.find(Carga.class, idCarga);
+    }
+
+    @Override
+    public void guardarCliente(Cliente cliente) {
+        if (cliente.getCedula() == null) {
+            em.persist(cliente);
+        } else {
+            em.merge(cliente);
+        }
+    }
 }

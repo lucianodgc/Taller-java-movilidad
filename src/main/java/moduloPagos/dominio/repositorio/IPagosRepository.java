@@ -16,4 +16,8 @@ public interface IPagosRepository {
     Cliente buscarCliente(String ciCliente);
 
     void altaCliente(Cliente cliente);
+
+    Carga buscarCarga(Long idCarga);
+
+    void guardarCliente(Cliente cliente);
 }

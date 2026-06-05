@@ -28,4 +28,11 @@ public class Tarjeta extends MedioPago {
         this.tipoTarjeta = tipoTarjeta;
     }
 
+    public String getNumero() {
+        return numero;
+    }
+
+    public TipoTarjeta getTipoTarjeta() {
+        return tipoTarjeta;
+    }
 }

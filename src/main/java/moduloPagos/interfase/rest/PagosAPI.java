@@ -64,7 +64,8 @@ public class PagosAPI {
                 pagoResponse.setId(pago.getId());
                 pagoResponse.setMonto(pago.getMonto());
                 pagoResponse.setFechaPago(pago.getFechaPago());
-                pagoResponse.setTipoMedioPago(pago.getMedioPago().getReferencia());
+                pagoResponse.setReferenciaMedioPago(pago.getMedioPago().getReferencia());
+                pagoResponse.setIdCarga(pago.getCarga().getId());
                 pagosResponse.add(pagoResponse);
             }
 

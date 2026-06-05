@@ -1,5 +1,6 @@
 package moduloCargas.interfase.rest.dto.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EstacionResponse {
@@ -7,7 +8,7 @@ public class EstacionResponse {
     private String descripcion;
     private String calle;
     private String departamento;
-    private List<CargadorResponse> cargadores;
+    private List<CargadorResponse> cargadores = new ArrayList<>();
 
     public Long getId() {
         return id;

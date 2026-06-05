@@ -1,5 +1,6 @@
 package moduloPagos.interfase;
 
+import moduloPagos.dominio.Carga;
 import moduloPagos.dominio.Pago;
 import moduloPagos.dominio.TipoMedioPago;
 import moduloPagos.interfase.dto.CargaDTO;

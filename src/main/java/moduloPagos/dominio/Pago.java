@@ -16,6 +16,10 @@ public class Pago {
     @JoinColumn(name = "cliente_cedula")
     private Cliente cliente;
 
+    @OneToOne
+    @JoinColumn(name = "carga_id")
+    private Carga carga;
+
     @Column(name = "monto")
     private Float monto;
 
@@ -29,11 +33,12 @@ public class Pago {
     protected Pago() {
     }
 
-    public Pago(Cliente cliente, Float monto, LocalDateTime fechaPago, MedioPago medioPago) {
+    public Pago(Cliente cliente, Float monto, LocalDateTime fechaPago, MedioPago medioPago, Carga carga) {
         this.cliente = cliente;
         this.monto = monto;
         this.fechaPago = fechaPago;
         this.medioPago = medioPago;
+        this.carga = carga;
     }
 
     public Long getId() {
@@ -50,5 +55,9 @@ public class Pago {
 
     public MedioPago getMedioPago() {
         return medioPago;
+    }
+
+    public Carga getCarga() {
+        return carga;
     }
 }

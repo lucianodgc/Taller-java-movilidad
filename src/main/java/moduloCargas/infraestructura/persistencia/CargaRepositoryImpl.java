@@ -105,7 +105,7 @@ public class CargaRepositoryImpl implements ICargaRepository {
 
     @Override
     public List<EstacionCarga> buscarEstaciones() {
-        String sql = "SELECT e FROM EstacionCargaCargas e";
+        String sql = "SELECT e FROM EstacionCargaCargas e LEFT JOIN FETCH e.cargadores";
         return em.createQuery(sql, EstacionCarga.class).getResultList();
     }
 

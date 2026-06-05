@@ -11,4 +11,5 @@ public interface IClienteRepository {
     Cliente buscarPorCedula(String cedula);
     List<Cliente> obtenerClientes();
     void guardarReclamo(Reclamo reclamo);
+    Cliente buscarClienteConMediosPago(String ci);
 }
