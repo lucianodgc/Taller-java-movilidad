@@ -26,8 +26,7 @@ public abstract class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reclamo> reclamos;
 
-    protected Cliente() {
-    }
+    protected Cliente() {}
 
     public Cliente(String cedula, String nombreCompleto, String telefono, String contraseña) {
         this.cedula = cedula;

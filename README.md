@@ -49,3 +49,15 @@ Quién escucha los eventos:
 
 - moduloPagos, ObserverModuloPagos escucha a los eventos: ClientesNuevoCliente y llama a pagosService.altaCliente(...), ClientesNuevoMedioPago y llama a pagosService.altaMedioPago(...), CargasNuevaCarga y llama a pagosService.altaCarga(...).
 Así moduloPagos se entera de nuevos clientes, nuevos medios de pago y nuevas cargas para mantener su propia información.
+
+---- Rate Limiting -------------------------------------------------------------------------------------------------------
+
+Se implementó rate limiting utilizando el mecanismo Token Bucket en la función verHistorico debido a al consumo de recursos, esto para limitar la cantidad de veces que un usuario puede enviar request al endpoint de cargas
+
+---- Permisos y roles -------------------------------------------------------------------------------------------------------
+ 
+se establecen 2 roles uno para la App Movil y otro para el Gestor Web, cada uno tiene derecho a hacer peticiones a determinadas APIs, en el caso de los usuarios de App Movil pueden hacer peticiones al modulo de cargas y también al modulo de cliente. En el caso del Gestor Web, este podrá acceder a las 3 APIs (las de usuario movil más el modulo de pago)
+
+---- Mocks -------------------------------------------------------------------------------------------------------
+Se crearon mocks que simulan la autorización de un pago (MOCK de sistema Medio de Pago) y otra que recibe la notificacion de pago y la valida dandole ok
+(MOCK Facturación UTE)
