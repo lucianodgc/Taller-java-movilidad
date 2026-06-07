@@ -2,7 +2,7 @@ Taller de Java 2026
 
 Esta aplicación consiste en un sistema de gestión de movilidad eléctrica  desarrollado en java utilizando Jakarta EE. La estructura está organizada en tres módulos diferentes, cada uno con su propia lógica, persistecia y servicios.
 
----- MODULOS ------------------------------------------------------------------------------------------------------- 
+---- MODULOS ---------------------------------------------------------------------------------------------------------------
 
 Cada modulo se compone de:
 - interfase: contratos, dtos
@@ -17,15 +17,15 @@ Se usa también Jakarta EE/CDI para:
 Los modulos que componen el sistema son los siguientes:
 
 - moduloClientes
-Se encarga de gestionar clientes y sus métodos de pago, es responzable de registrar clientes, dar de alta medios de pago, consultar clientes, obtener clientes por ci y registrar reclamos.
+Se encarga de gestionar clientes y sus métodos de pago, es responsable de registrar clientes, dar de alta medios de pago, consultar clientes, obtener clientes por ci y registrar reclamos.
 
 - moduloCarga
-Gestiona la infraestructura de carga y las sesiones, es responzable de registrar estaciones de carga, registrar cargadores, inicar una carga para un cliente, consultar la carga actual, consultar el historial de cargas, finalizar una carga y calcular importes/recargos.
+Gestiona la infraestructura de carga y las sesiones, es responsable de registrar estaciones de carga, registrar cargadores, inicar una carga para un cliente, consultar la carga actual, consultar el historial de cargas, finalizar una carga y calcular importes/recargos.
 
 - moduloPagos
 se encarga de gestionar pagos relacionados con cargas, es responsable de registrar el pago de una carga y consultar pagos de un cliente en un rango de fechas.
 
----- EVENTOS -------------------------------------------------------------------------------------------------------
+---- EVENTOS --------------------------------------------------------------------------------------------------------------
 
 El proyecto además, hace uso de eventos:
 - ClientesNuevoCliente (Clientes)
@@ -50,14 +50,14 @@ Quién escucha los eventos:
 - moduloPagos, ObserverModuloPagos escucha a los eventos: ClientesNuevoCliente y llama a pagosService.altaCliente(...), ClientesNuevoMedioPago y llama a pagosService.altaMedioPago(...), CargasNuevaCarga y llama a pagosService.altaCarga(...).
 Así moduloPagos se entera de nuevos clientes, nuevos medios de pago y nuevas cargas para mantener su propia información.
 
----- Rate Limiting -------------------------------------------------------------------------------------------------------
+---- RATE LIMITING ----------------------------------------------------------------------------------------------------------
 
-Se implementó rate limiting utilizando el mecanismo Token Bucket en la función verHistorico debido a al consumo de recursos, esto para limitar la cantidad de veces que un usuario puede enviar request al endpoint de cargas
+Se implementó rate limiting utilizando el mecanismo Token Bucket en la función verHistorico debido a al consumo de recursos, esto para limitar la cantidad de veces que un usuario puede enviar request al endpoint de cargas.
 
----- Permisos y roles -------------------------------------------------------------------------------------------------------
+---- PERMISOS Y ROLES -------------------------------------------------------------------------------------------------------
  
-se establecen 2 roles uno para la App Movil y otro para el Gestor Web, cada uno tiene derecho a hacer peticiones a determinadas APIs, en el caso de los usuarios de App Movil pueden hacer peticiones al modulo de cargas y también al modulo de cliente. En el caso del Gestor Web, este podrá acceder a las 3 APIs (las de usuario movil más el modulo de pago)
+Se establecen 2 roles uno para la App Movil y otro para el Gestor Web, cada uno tiene derecho a hacer peticiones a determinadas APIs, en el caso de los usuarios de App Movil pueden hacer peticiones al modulo de cargas y también al modulo de cliente. En el caso del Gestor Web, este podrá acceder a las 3 APIs (las de usuario movil más el modulo de pago).
 
----- Mocks -------------------------------------------------------------------------------------------------------
-Se crearon mocks que simulan la autorización de un pago (MOCK de sistema Medio de Pago) y otra que recibe la notificacion de pago y la valida dandole ok
-(MOCK Facturación UTE)
+---- MOCKS ------------------------------------------------------------------------------------------------------------------
+
+Se crearon mocks que simulan la autorización de un pago (MOCK de sistema Medio de Pago) y otra que recibe la notificacion de pago y la valida dandole ok (MOCK Facturación UTE).
