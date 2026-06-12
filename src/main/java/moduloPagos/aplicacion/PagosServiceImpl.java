@@ -13,6 +13,7 @@ import moduloPagos.dominio.repositorio.IPagoRepository;
 import moduloPagos.interfase.dto.CargaDTO;
 import moduloPagos.interfase.IPagosService;
 import moduloPagos.interfase.dto.PagoDTO;
+import moduloPagos.interfase.evento.out.PublicadorEvento;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +24,9 @@ public class PagosServiceImpl implements IPagosService {
 
     @Inject
     IPagoRepository pagosRepository;
+
+    @Inject
+    PublicadorEvento publicadorEvento;
 
     private Cliente buscarClienteOExcepcion(String ciCliente) {
         Cliente cliente = pagosRepository.buscarCliente(ciCliente);
@@ -67,13 +71,16 @@ public class PagosServiceImpl implements IPagosService {
 
             if (response.getStatus() == 200 || response.getStatus() == 201) {
                 cliente.agregarPago(pago);
+                publicadorEvento.publicarPagoRealizado(cliente.getCedula(), pagoDTO.getMonto(), medioPago.getTipoMedioPago().name());
             } else {
                 String errorMsg = response.readEntity(String.class);
+                publicadorEvento.publicarPagoFallido(cliente.getCedula(), pagoDTO.getMonto(), medioPago.getTipoMedioPago().name(), errorMsg);
                 throw new IllegalStateException("Pago rechazado por el sistema externo: " + errorMsg);
             }
         } catch (IllegalStateException e) {
             throw e;
         } catch (Exception e) {
+            publicadorEvento.publicarPagoFallido(cliente.getCedula(), pagoDTO.getMonto(), medioPago.getTipoMedioPago().name(), e.getMessage());
             throw new RuntimeException("No se pudo conectar con el mock de pagos", e);
         } finally {
             client.close();

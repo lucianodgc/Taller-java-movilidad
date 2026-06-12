@@ -76,6 +76,7 @@ public class CargasServiceImpl implements ICargasService {
         cargador.agregarCargas(nuevaCarga);
 
         cargaRepository.guardarCarga(nuevaCarga);
+        evento.publicarCargaIniciada(nuevaCarga);
     }
 
     @Override
