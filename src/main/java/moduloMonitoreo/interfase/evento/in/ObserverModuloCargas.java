@@ -6,12 +6,9 @@ import jakarta.inject.Inject;
 import moduloCargas.interfase.evento.out.CargasCargaIniciada;
 import moduloCargas.interfase.evento.out.CargasNuevaCarga;
 import moduloMonitoreo.infraestructura.RegistradorDeMetricas;
-import moduloPagos.interfase.evento.out.PagosPagoFallido;
-import moduloPagos.interfase.evento.out.PagosPagoRealizado;
 
 @ApplicationScoped
-public class observerModuloMonitoreo {
-    
+public class ObserverModuloCargas {
     @Inject
     private RegistradorDeMetricas registradorDeMetricas;
 
@@ -21,13 +18,5 @@ public class observerModuloMonitoreo {
 
     public void accept(@Observes CargasNuevaCarga event) {
         registradorDeMetricas.cargaFinalizada();
-    }
-
-    public void accept(@Observes PagosPagoRealizado event) {
-        registradorDeMetricas.pagoRealizado(event.getTipoMedioPago());
-    }
-
-    public void accept(@Observes PagosPagoFallido event) {
-        registradorDeMetricas.pagoFallido(event.getTipoMedioPago());
     }
 }
