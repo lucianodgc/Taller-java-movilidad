@@ -26,7 +26,7 @@ public class RegistradorDeMetricas {
         InfluxConfig config = new InfluxConfig() {
             @Override
             public String get(String key) {
-                return null;
+                return InfluxConfig.DEFAULT.get(key);
             }
 
             @Override
@@ -36,7 +36,7 @@ public class RegistradorDeMetricas {
 
             @Override
             public String db() {
-                return "metricasTallerJava";
+                return "sistemaGestionMovilidad";
             }
 
             @Override
