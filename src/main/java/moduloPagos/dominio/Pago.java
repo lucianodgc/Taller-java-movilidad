@@ -26,7 +26,7 @@ public class Pago {
     @Column(name = "fecha_pago")
     private LocalDateTime fechaPago;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "medio_pago_referencia")
     private MedioPago medioPago;
 

@@ -108,7 +108,7 @@ public class CargasServiceImpl implements ICargasService {
             throw new IllegalStateException("No hay ninguna carga activa registrada para este cargador.");
         }
 
-        Cargador cargador = cargaActiva.getCargador();
+        Cargador cargador = cargaRepository.buscarCargador(cargaActiva.getCargador().getId().toString());
         if (cargador == null) {
             throw new IllegalArgumentException("El cargador no existe.");
         }

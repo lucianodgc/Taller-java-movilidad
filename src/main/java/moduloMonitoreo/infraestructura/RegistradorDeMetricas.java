@@ -26,7 +26,7 @@ public class RegistradorDeMetricas {
         InfluxConfig config = new InfluxConfig() {
             @Override
             public String get(String key) {
-                return InfluxConfig.DEFAULT.get(key);
+                return null;
             }
 
             @Override
@@ -41,7 +41,7 @@ public class RegistradorDeMetricas {
 
             @Override
             public Duration step() {
-                return Duration.ofSeconds(10);
+                return Duration.ofSeconds(5);
             }
         };
 
