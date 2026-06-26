@@ -242,7 +242,6 @@
   "refresh": "5s",
   "schemaVersion": 25,
   "style": "dark",
-  "tags": [ "tallerjava", "movilidad" ],
   "time": { "from": "now-1h", "to": "now" },
   "timepicker": {},
   "timezone": "",

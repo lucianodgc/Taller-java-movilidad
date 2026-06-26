@@ -162,6 +162,7 @@
                                 <layer>jaxrs</layer>
                                 <layer>jpa</layer>
                                 <layer>mysql</layer>
+                                <layer>messaging-activemq</layer>
                             </layers>
                             <scripts>
                                 <script>config.cli</script>

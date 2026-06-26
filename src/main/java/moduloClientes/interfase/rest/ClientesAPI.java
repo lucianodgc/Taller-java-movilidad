@@ -100,7 +100,7 @@ public class ClientesAPI {
     ) {
         try {
             clientesService.realizarReclamo(ciCliente, request.getComentario());
-            return Response.status(Response.Status.CREATED).entity("Reclamo realizado con éxito").build();
+            return Response.status(Response.Status.ACCEPTED).entity("Reclamo realizado con éxito").build();
         } catch (IllegalArgumentException | IllegalStateException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }

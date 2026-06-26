@@ -16,5 +16,7 @@ public interface IClientesService {
 
     void realizarReclamo(String ciCliente, String comentario);
 
+    void guardarReclamoProcesado(String ciCliente, String comentario, String etiqueta);
+
     List<MedioPago> obtenerMediosPagoCliente(String ciCliente);
 }

@@ -14,13 +14,16 @@ public class Reclamo {
     Cliente cliente;
     @Column(name = "comentario")
     String comentario;
+    @Column(name = "etiqueta")
+    private String etiqueta;
 
     protected Reclamo() {
     }
 
-    public Reclamo(Cliente cliente, String comentario) {
+    public Reclamo(Cliente cliente, String comentario, String etiqueta) {
         this.cliente = cliente;
         this.comentario = comentario;
+        this.etiqueta = etiqueta;
     }
 
     public Long getId() {
@@ -31,7 +34,4 @@ public class Reclamo {
         return cliente;
     }
 
-    public String getComentario() {
-        return comentario;
-    }
 }
