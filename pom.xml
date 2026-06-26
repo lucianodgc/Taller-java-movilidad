@@ -157,10 +157,7 @@
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <version>5.0.1.Final</version>
                         <configuration>
-                            <layers>
-                                <layer>full-server</layer>
-                                <layer>mysql</layer>
-                            </layers>
+                            <serverConfig>standalone-full.xml</serverConfig>
                             <scripts>
                                 <script>config.cli</script>
                             </scripts>
