@@ -158,11 +158,8 @@
                         <version>5.0.1.Final</version>
                         <configuration>
                             <layers>
-                                <layer>ee-core-profile-server</layer>
-                                <layer>jaxrs</layer>
-                                <layer>jpa</layer>
+                                <layer>full-server</layer>
                                 <layer>mysql</layer>
-                                <layer>messaging-activemq</layer>
                             </layers>
                             <scripts>
                                 <script>config.cli</script>
