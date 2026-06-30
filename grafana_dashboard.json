@@ -13,7 +13,7 @@
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
       "id": 10,
-      "title": "Métricas de Cargas de Vehículos",
+      "title": "Métricas de Cargas",
       "type": "row"
     },
     {
@@ -45,7 +45,7 @@
         }
       ],
       "title": "Cargas Activas Actuales",
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "datasource": "InfluxDB",
@@ -76,7 +76,7 @@
           "resultFormat": "time_series"
         }
       ],
-      "title": "Cargas Realizadas (Total Histórico)",
+      "title": "Cargas Realizadas",
       "type": "stat"
     },
     {
@@ -218,7 +218,7 @@
           "alias": "Tarjeta"
         }
       ],
-      "title": "Evolución de Pagos Realizados (Deltas)",
+      "title": "Evolución de Pagos Realizados",
       "type": "graph"
     },
     {
@@ -235,8 +235,46 @@
           "alias": "Errores Tarjeta"
         }
       ],
-      "title": "Evolución de Errores de Pago con Tarjeta (Deltas)",
+      "title": "Evolución de Errores de Pago con Tarjeta",
       "type": "graph"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 23 },
+      "id": 13,
+      "title": "Métricas de Clientes",
+      "type": "row"
+    },
+    {
+      "datasource": "InfluxDB",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 24 },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": "InfluxDB",
+          "query": "SELECT sum(\"value\") FROM \"reclamos_procesados\" WHERE \"resultado\" = 'NEGATIVO' AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "Total de Reclamos NEGATIVO",
+      "type": "stat"
     }
   ],
   "refresh": "5s",
@@ -246,7 +284,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "Monitoreo de Movilidad Eléctrica",
-  "uid": "taller_java_movilidad_final",
+  "uid": "taller_java_movilidad",
   "version": 3,
   "weekStart": ""
 }

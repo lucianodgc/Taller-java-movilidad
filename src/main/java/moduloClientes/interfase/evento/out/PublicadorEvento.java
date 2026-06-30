@@ -12,6 +12,9 @@ public class PublicadorEvento {
     private Event<ClientesNuevoCliente> nuevoClienteEvent;
     @Inject
     private Event<ClientesNuevoMedioPago> nuevoMedioPagoEvent;
+    @Inject
+    private Event<ClientesReclamoNegativo> reclamoNegativoEvent;
+
 
     public void publicarNuevoCliente(String ciCliente, float descuento) {
         ClientesNuevoCliente evento = new ClientesNuevoCliente(ciCliente, descuento);
@@ -21,5 +24,9 @@ public class PublicadorEvento {
     public void publicarNuevoMedioPago(String referencia, String ciCliente, String tipoMedioPago) {
         ClientesNuevoMedioPago evento = new ClientesNuevoMedioPago(referencia, ciCliente, tipoMedioPago);
         nuevoMedioPagoEvent.fire(evento);
+    }
+
+    public void publicarReclamoNegativo() {
+        reclamoNegativoEvent.fire(new ClientesReclamoNegativo());
     }
 }

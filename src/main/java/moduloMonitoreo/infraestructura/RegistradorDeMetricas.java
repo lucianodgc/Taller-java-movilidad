@@ -9,6 +9,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.influx.InfluxConfig;
 import io.micrometer.influx.InfluxMeterRegistry;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -20,6 +21,7 @@ public class RegistradorDeMetricas {
     private Counter pagosUteCounter;
     private Counter pagosTarjetaCounter;
     private Counter pagosFallidosCounter;
+    private Counter reclamosNegativosCounter;
 
     @PostConstruct
     public void init() {
@@ -41,7 +43,7 @@ public class RegistradorDeMetricas {
 
             @Override
             public Duration step() {
-                return Duration.ofSeconds(5);
+                return Duration.ofSeconds(2);
             }
         };
 
@@ -51,6 +53,7 @@ public class RegistradorDeMetricas {
         pagosUteCounter = registry.counter("pagos.realizados", "medio", "UTE");
         pagosTarjetaCounter = registry.counter("pagos.realizados", "medio", "TARJETA");
         pagosFallidosCounter = registry.counter("pagos.error", "medio", "TARJETA");
+        reclamosNegativosCounter = registry.counter("reclamos.procesados", "resultado", "NEGATIVO");
     }
 
     public void cargaIniciada() {
@@ -73,6 +76,32 @@ public class RegistradorDeMetricas {
     public void pagoFallido(String tipo) {
         if ("TARJETA".equals(tipo)) {
             pagosFallidosCounter.increment();
+        }
+    }
+
+    public void reclamoNegativoProcesado() {
+        reclamosNegativosCounter.increment();
+    }
+
+    public void resetearBaseDeDatos() {
+        try {
+            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+
+            java.net.http.HttpRequest dropRequest = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create("http://localhost:8086/query?q=" + java.net.URLEncoder.encode("DROP DATABASE sistemaGestionMovilidad", "UTF-8")))
+                    .POST(java.net.http.HttpRequest.BodyPublishers.noBody())
+                    .build();
+            client.send(dropRequest, java.net.http.HttpResponse.BodyHandlers.ofString());
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @PreDestroy
+    public void cleanup() {
+        if (registry != null && !registry.isClosed()) {
+            registry.close();
         }
     }
 }

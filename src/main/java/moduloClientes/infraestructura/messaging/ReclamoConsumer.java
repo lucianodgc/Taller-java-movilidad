@@ -11,6 +11,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import moduloClientes.interfase.IClientesService;
+import moduloClientes.interfase.evento.out.PublicadorEvento;
 
 import java.io.StringReader;
 import java.net.URI;
@@ -23,13 +24,17 @@ import java.time.Duration;
         activationConfig = {
                 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "jakarta.jms.Queue"),
                 @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:jboss/exported/jms/queue/ReclamosQueue"),
-                @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")
+                @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1"),
+                @ActivationConfigProperty(propertyName = "transactionTimeout", propertyValue = "30")
         }
 )
 public class ReclamoConsumer implements MessageListener {
 
     @Inject
     private IClientesService clientesService;
+
+    @Inject
+    private PublicadorEvento evento;
 
     @Override
     public void onMessage(Message message) {
@@ -42,6 +47,10 @@ public class ReclamoConsumer implements MessageListener {
                 String etiqueta = llamarAlLLM(reclamo.comentario());
 
                 clientesService.guardarReclamoProcesado(reclamo.ciCliente(), reclamo.comentario(), etiqueta);
+
+                if ("NEGATIVO".equals(etiqueta)) {
+                    evento.publicarReclamoNegativo();
+                }
             }
         } catch (Exception e) {
             System.err.println("Error procesando el reclamo: " + e.getMessage());
@@ -51,7 +60,10 @@ public class ReclamoConsumer implements MessageListener {
 
     private String llamarAlLLM(String comentario) {
         try {
-            String prompt = "Cataloga el siguiente texto como positivo, problematico, o neutro: " + comentario;
+            String prompt = "Eres un sistema automático de clasificación de reclamos de transporte y movilidad. "
+                    + "Clasifica el siguiente comentario usando estrictamente una de estas tres palabras: POSITIVO, NEGATIVO o NEUTRO. "
+                    + "No agregues introducciones, ni explicaciones, ni puntos. Responde solo la palabra.\n\n"
+                    + "Comentario: " + comentario;
 
 
             JsonObject requestJson = Json.createObjectBuilder()
@@ -63,12 +75,13 @@ public class ReclamoConsumer implements MessageListener {
             String requestBody = requestJson.toString();
 
             HttpClient client = HttpClient.newBuilder()
-                    .connectTimeout(Duration.ofMinutes(5))
+                    .connectTimeout(Duration.ofSeconds(30))
                     .build();
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:11434/api/generate"))
                     .header("Content-Type", "application/json")
+                    .timeout(Duration.ofMinutes(3))
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
 

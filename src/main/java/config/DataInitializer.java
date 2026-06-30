@@ -16,6 +16,7 @@ import moduloClientes.dominio.TipoTarjeta;
 import moduloClientes.interfase.IClientesService;
 import moduloClientes.interfase.dto.ClienteDTO;
 import moduloClientes.interfase.dto.MedioPagoDTO;
+import moduloMonitoreo.infraestructura.RegistradorDeMetricas;
 import moduloPagos.interfase.IPagosService;
 
 import java.time.LocalDate;
@@ -28,12 +29,13 @@ public class DataInitializer {
     private IClientesService clientesService;
     @Inject
     private ICargasService cargasService;
-
     @Inject
-    private IPagosService pagosService;
+    private RegistradorDeMetricas registradorDeMetricas;
 
     @PostConstruct
     public void init() {
+
+        registradorDeMetricas.resetearBaseDeDatos();
 
         //CLIENTES
 
