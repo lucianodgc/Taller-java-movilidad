@@ -61,3 +61,75 @@ Se establecen 2 roles uno para la App Movil y otro para el Gestor Web, cada uno 
 ---- MOCKS ------------------------------------------------------------------------------------------------------------------
 
 Se crearon mocks que simulan la autorización de un pago (MOCK de sistema Medio de Pago) y otra que recibe la notificacion de pago y la valida dandole ok (MOCK Facturación UTE).
+
+---- MONITOREO (GRAFANA E INFLUXDB)--------------------------------------------------------------------
+
+Se ha implementado un sistema de monitoreo de métricas utilizando Micrometer e InfluxDB, con visualización en Grafana.
+
+El módulo de monitoreo (moduloMonitoreo) registra las siguientes métricas:
+
+- cargas.activas: Gauge que muestra la cantidad de cargas activas en tiempo real
+- cargas.realizadas: Contador de cargas completadas
+- pagos.realizados: Contador de pagos exitosos (por medio: UTE o TARJETA)
+- pagos.error: Contador de pagos fallidos (por medio de pago)
+- reclamos.procesados: Contador de reclamos procesados (por resultado: NEGATIVO, etc)
+
+El archivo grafana_dashboard.json contiene un dashboard preconfigurado con:
+- Cargas Activas Actuales
+- Cargas Totales Realizadas
+- Pagos por Medio de Pago
+- Pagos Fallidos
+- Reclamos Negativos
+
+---- COLAS DE MENSAJES --------------------------------------------------------------------------------
+
+Se ha implementado un sistema asincrónico de procesamiento de reclamos utilizando Jakarta JMS 
+
+- EnviarReclamoQueueUtil (Productor)
+   - Ubicación: moduloClientes.infraestructura.messaging
+   - Responsabilidad: Enviar reclamos a la cola como mensajes JSON
+   - Inyecta: JMSContext para crear productores
+   - Método: enviarMensaje(String mensajeJson) - envía el mensaje a ReclamosQueue
+
+- ReclamoConsumer (Consumidor)
+   - Ubicación: moduloClientes.infraestructura.messaging
+   - Tipo: MDB (@MessageDriven)
+   - Escucha: ReclamosQueue
+   - Configuración:
+     - destinationType: Queue
+     - maxSession: 1 (procesamiento secuencial)
+     - transactionTimeout: 30 segundos
+   - Procesamiento:
+     1. Recibe el mensaje JSON de la cola
+     2. Convierte a objeto ReclamoMessage
+     3. Llama a LLM para clasificar el comentario
+     4. Guarda el reclamo con su etiqueta/clasificación
+
+- ReclamoMessage (Estructura de Mensaje)
+   - Record con dos campos:
+     - ciCliente: Cédula del cliente
+     - comentario: Texto del reclamo
+   - Métodos de serialización:
+     - toJson(): Convierte el mensaje a JSON
+     - buildFromJson(): Convierte JSON a objeto ReclamoMessage
+
+---- INTEGRACIÓN CON LLM (OLLAMA + LLAMA2) ----------------------------------------------------------------------
+
+Se ha integrado un modelo de lenguaje local para clasificación automática de reclamos.
+
+- El ReclamoConsumer recibe un reclamo de la cola
+- Construye un prompt especializado para clasificación:
+   - Instruye al modelo a responder solo con la clasificación
+   - Envía el comentario del usuario
+- Realiza una llamada HTTP POST a Ollama con:
+   - Modelo: "llama2"
+   - Stream: false (respuesta completa)
+- Parsea la respuesta JSON
+- Extrae la clasificación (POSITIVO, NEGATIVO o NEUTRO)
+- Persiste el reclamo con su etiqueta
+- Si es NEGATIVO, publica un evento de métrica
+
+El sistema clasifica automáticamente cada reclamo en 3 categorías:
+- POSITIVO: Reclamo con tono positivo o satisfecho
+- NEGATIVO: Reclamo con tono negativo o problemático
+- NEUTRO: Reclamo neutral sin carga emocional
